@@ -1,0 +1,439 @@
+{
+  "$schema": "http://json-schema.org/draft-2020-12/schema",
+  "title": "TRL/CRL Definition of Done",
+  "description": "각 Technology Readiness Level (TRL) 및 Commercialization Readiness Level (CRL)에서 요구되는 필수 산출물과 측정 기준",
+  "type": "object",
+  "properties": {
+    "trl_levels": {
+      "type": "object",
+      "title": "Technology Readiness Levels (TRL 1-9)",
+      "properties": {
+        "trl_1": {
+          "type": "object",
+          "title": "Basic Principles Observed",
+          "description": "기초 과학 원리 관찰 및 보고",
+          "properties": {
+            "level_name": { "type": "string", "const": "Basic Principles Observed" },
+            "description": { "type": "string", "const": "과학적 원리의 초기 관찰 및 보고" },
+            "required_deliverables": {
+              "type": "array",
+              "items": { "type": "string" },
+              "examples": ["Literature_Review", "Research_Proposal", "Scientific_Report"]
+            },
+            "required_measurements": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "metric_name": { "type": "string" },
+                  "threshold": { "type": "string" },
+                  "description": { "type": "string" }
+                }
+              },
+              "examples": [
+                {
+                  "metric_name": "peer_review_acceptance",
+                  "threshold": "≥1 peer-reviewed publication accepted",
+                  "description": "동료 검증된 학술지 게재"
+                }
+              ]
+            }
+          },
+          "required": ["level_name", "description", "required_deliverables", "required_measurements"]
+        },
+        "trl_2": {
+          "type": "object",
+          "title": "Technology Concept Formulated",
+          "properties": {
+            "level_name": { "type": "string", "const": "Technology Concept Formulated" },
+            "description": { "type": "string", "const": "기술 개념 정립 및 응용 초기 연구" },
+            "required_deliverables": {
+              "type": "array",
+              "items": { "type": "string" },
+              "examples": ["Technology_Concept_Document", "Patent_Application", "Research_Paper"]
+            },
+            "required_measurements": {
+              "type": "array",
+              "items": { "type": "object" },
+              "examples": [
+                {
+                  "metric_name": "patent_filed",
+                  "threshold": "≥1 patent application filed",
+                  "description": "특허 출원"
+                }
+              ]
+            }
+          },
+          "required": ["level_name", "description", "required_deliverables", "required_measurements"]
+        },
+        "trl_3": {
+          "type": "object",
+          "title": "Experimental Proof of Concept",
+          "properties": {
+            "level_name": { "type": "string", "const": "Experimental Proof of Concept" },
+            "description": { "type": "string", "const": "실험실 수준의 개념 입증" },
+            "required_deliverables": {
+              "type": "array",
+              "items": { "type": "string" },
+              "examples": ["Lab_Experiment_Report", "Performance_Metrics", "Risk_Assessment"]
+            },
+            "required_measurements": {
+              "type": "array",
+              "items": { "type": "object" },
+              "examples": [
+                {
+                  "metric_name": "success_rate",
+                  "threshold": "≥80%",
+                  "description": "실험 성공률"
+                },
+                {
+                  "metric_name": "performance_variance",
+                  "threshold": "<15%",
+                  "description": "성능 편차"
+                }
+              ]
+            }
+          },
+          "required": ["level_name", "description", "required_deliverables", "required_measurements"]
+        },
+        "trl_4": {
+          "type": "object",
+          "title": "Technology Validated in Lab",
+          "properties": {
+            "level_name": { "type": "string", "const": "Technology Validated in Lab" },
+            "description": { "type": "string", "const": "실험실 환경에서 기술 검증" },
+            "required_deliverables": {
+              "type": "array",
+              "items": { "type": "string" },
+              "examples": ["Lab_Validation_Report", "Scalability_Analysis", "Cost_Estimate"]
+            },
+            "required_measurements": {
+              "type": "array",
+              "items": { "type": "object" },
+              "examples": [
+                {
+                  "metric_name": "repeatability",
+                  "threshold": "≥95%",
+                  "description": "반복성"
+                },
+                {
+                  "metric_name": "scalability_score",
+                  "threshold": "≥7/10",
+                  "description": "확장 가능성 평가"
+                }
+              ]
+            }
+          },
+          "required": ["level_name", "description", "required_deliverables", "required_measurements"]
+        },
+        "trl_5": {
+          "type": "object",
+          "title": "Technology Validated in Relevant Environment",
+          "properties": {
+            "level_name": { "type": "string", "const": "Technology Validated in Relevant Environment" },
+            "description": { "type": "string", "const": "실제 환경에 가까운 조건에서 기술 검증" },
+            "required_deliverables": {
+              "type": "array",
+              "items": { "type": "string" },
+              "examples": ["Field_Test_Report", "Environmental_Impact_Assessment", "Prototype_Design"]
+            },
+            "required_measurements": {
+              "type": "array",
+              "items": { "type": "object" },
+              "examples": [
+                {
+                  "metric_name": "field_test_success_rate",
+                  "threshold": "≥85%",
+                  "description": "현장 테스트 성공률"
+                }
+              ]
+            }
+          },
+          "required": ["level_name", "description", "required_deliverables", "required_measurements"]
+        },
+        "trl_6": {
+          "type": "object",
+          "title": "Technology Demonstrated in Relevant Environment",
+          "properties": {
+            "level_name": { "type": "string", "const": "Technology Demonstrated in Relevant Environment" },
+            "description": { "type": "string", "const": "실제 환경에서 기술 시연" },
+            "required_deliverables": {
+              "type": "array",
+              "items": { "type": "string" },
+              "examples": ["Demonstration_Report", "Performance_Summary", "Safety_Certification"]
+            },
+            "required_measurements": {
+              "type": "array",
+              "items": { "type": "object" },
+              "examples": [
+                {
+                  "metric_name": "operational_readiness",
+                  "threshold": "≥90%",
+                  "description": "운영 준비도"
+                }
+              ]
+            }
+          },
+          "required": ["level_name", "description", "required_deliverables", "required_measurements"]
+        },
+        "trl_7": {
+          "type": "object",
+          "title": "System Prototype Demonstration",
+          "properties": {
+            "level_name": { "type": "string", "const": "System Prototype Demonstration" },
+            "description": { "type": "string", "const": "시스템 프로토타입 시연" },
+            "required_deliverables": {
+              "type": "array",
+              "items": { "type": "string" },
+              "examples": ["Prototype_Documentation", "Integration_Test_Report", "User_Manual"]
+            },
+            "required_measurements": {
+              "type": "array",
+              "items": { "type": "object" },
+              "examples": [
+                {
+                  "metric_name": "system_integration_success",
+                  "threshold": "≥95%",
+                  "description": "시스템 통합 성공률"
+                }
+              ]
+            }
+          },
+          "required": ["level_name", "description", "required_deliverables", "required_measurements"]
+        },
+        "trl_8": {
+          "type": "object",
+          "title": "System Complete and Qualified",
+          "properties": {
+            "level_name": { "type": "string", "const": "System Complete and Qualified" },
+            "description": { "type": "string", "const": "시스템 완성 및 검증" },
+            "required_deliverables": {
+              "type": "array",
+              "items": { "type": "string" },
+              "examples": ["Final_System_Design", "Certification_Report", "Operations_Manual"]
+            },
+            "required_measurements": {
+              "type": "array",
+              "items": { "type": "object" },
+              "examples": [
+                {
+                  "metric_name": "certification_compliance",
+                  "threshold": "100%",
+                  "description": "인증 준수도"
+                }
+              ]
+            }
+          },
+          "required": ["level_name", "description", "required_deliverables", "required_measurements"]
+        },
+        "trl_9": {
+          "type": "object",
+          "title": "Actual System Proven in Operational Environment",
+          "properties": {
+            "level_name": { "type": "string", "const": "Actual System Proven in Operational Environment" },
+            "description": { "type": "string", "const": "실제 운영 환경에서 시스템 검증" },
+            "required_deliverables": {
+              "type": "array",
+              "items": { "type": "string" },
+              "examples": ["Operational_Report", "Performance_Analytics", "Maintenance_Manual"]
+            },
+            "required_measurements": {
+              "type": "array",
+              "items": { "type": "object" },
+              "examples": [
+                {
+                  "metric_name": "operational_availability",
+                  "threshold": "≥99%",
+                  "description": "운영 가용도"
+                }
+              ]
+            }
+          },
+          "required": ["level_name", "description", "required_deliverables", "required_measurements"]
+        }
+      }
+    },
+    "crl_levels": {
+      "type": "object",
+      "title": "Commercialization Readiness Levels (CRL 1-9)",
+      "properties": {
+        "crl_1": {
+          "type": "object",
+          "title": "Market Research",
+          "description": "시장 조사",
+          "required_deliverables": {
+            "type": "array",
+            "items": { "type": "string" },
+            "examples": ["Market_Analysis_Report", "Competitive_Landscape", "Customer_Needs_Assessment"]
+          },
+          "required_measurements": {
+            "type": "array",
+            "items": { "type": "object" },
+            "examples": [
+              {
+                "metric_name": "market_size_estimate",
+                "threshold": "≥$1M TAM identified",
+                "description": "시장 규모 파악"
+              }
+            ]
+          }
+        },
+        "crl_2": {
+          "type": "object",
+          "title": "Business Case Development",
+          "description": "사업 타당성 검토",
+          "required_deliverables": {
+            "type": "array",
+            "items": { "type": "string" },
+            "examples": ["Business_Plan", "Financial_Projection", "Go_to_Market_Strategy"]
+          },
+          "required_measurements": {
+            "type": "array",
+            "items": { "type": "object" },
+            "examples": [
+              {
+                "metric_name": "roi_projection",
+                "threshold": "≥20% IRR",
+                "description": "투자수익률 전망"
+              }
+            ]
+          }
+        },
+        "crl_3": {
+          "type": "object",
+          "title": "Partner Engagement",
+          "description": "파트너 협력 검토",
+          "required_deliverables": {
+            "type": "array",
+            "items": { "type": "string" },
+            "examples": ["Partner_Assessment", "Licensing_Framework", "Collaboration_Agreement"]
+          },
+          "required_measurements": {
+            "type": "array",
+            "items": { "type": "object" }
+          }
+        },
+        "crl_4": {
+          "type": "object",
+          "title": "IP Protection Strategy",
+          "description": "지적 재산권 보호 전략",
+          "required_deliverables": {
+            "type": "array",
+            "items": { "type": "string" },
+            "examples": ["Patent_Portfolio_Review", "Trade_Secret_Protection_Plan", "Trademark_Strategy"]
+          },
+          "required_measurements": {
+            "type": "array",
+            "items": { "type": "object" }
+          }
+        },
+        "crl_5": {
+          "type": "object",
+          "title": "Production Planning",
+          "description": "생산 계획",
+          "required_deliverables": {
+            "type": "array",
+            "items": { "type": "string" },
+            "examples": ["Production_Roadmap", "Supply_Chain_Analysis", "Quality_Control_Plan"]
+          },
+          "required_measurements": {
+            "type": "array",
+            "items": { "type": "object" },
+            "examples": [
+              {
+                "metric_name": "production_cost_per_unit",
+                "threshold": "Within budget estimate",
+                "description": "단위당 생산 비용"
+              }
+            ]
+          }
+        },
+        "crl_6": {
+          "type": "object",
+          "title": "Pre-Launch Activities",
+          "description": "출시 전 준비",
+          "required_deliverables": {
+            "type": "array",
+            "items": { "type": "string" },
+            "examples": ["Marketing_Materials", "Sales_Strategy", "Customer_Support_Plan"]
+          },
+          "required_measurements": {
+            "type": "array",
+            "items": { "type": "object" },
+            "examples": [
+              {
+                "metric_name": "pre_launch_awareness",
+                "threshold": "≥30% target market awareness",
+                "description": "사전 홍보 인지도"
+              }
+            ]
+          }
+        },
+        "crl_7": {
+          "type": "object",
+          "title": "Market Entry",
+          "description": "시장 진입",
+          "required_deliverables": {
+            "type": "array",
+            "items": { "type": "string" },
+            "examples": ["Launch_Report", "Initial_Sales_Data", "Customer_Feedback_Summary"]
+          },
+          "required_measurements": {
+            "type": "array",
+            "items": { "type": "object" },
+            "examples": [
+              {
+                "metric_name": "initial_sales_volume",
+                "threshold": "≥100 units/month",
+                "description": "초기 판매량"
+              }
+            ]
+          }
+        },
+        "crl_8": {
+          "type": "object",
+          "title": "Market Growth",
+          "description": "시장 성장",
+          "required_deliverables": {
+            "type": "array",
+            "items": { "type": "string" },
+            "examples": ["Quarterly_Revenue_Report", "Market_Expansion_Plan", "Customer_Retention_Analysis"]
+          },
+          "required_measurements": {
+            "type": "array",
+            "items": { "type": "object" },
+            "examples": [
+              {
+                "metric_name": "market_share_growth",
+                "threshold": "≥15% YoY growth",
+                "description": "시장 점유율 성장"
+              }
+            ]
+          }
+        },
+        "crl_9": {
+          "type": "object",
+          "title": "Market Leadership",
+          "description": "시장 리더십",
+          "required_deliverables": {
+            "type": "array",
+            "items": { "type": "string" },
+            "examples": ["Annual_Report", "Industry_Thought_Leadership", "Long_Term_Strategy_Update"]
+          },
+          "required_measurements": {
+            "type": "array",
+            "items": { "type": "object" },
+            "examples": [
+              {
+                "metric_name": "market_leadership_position",
+                "threshold": "Top 3 in market segment",
+                "description": "시장 리더십 위치"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "required": ["trl_levels", "crl_levels"]
+}
