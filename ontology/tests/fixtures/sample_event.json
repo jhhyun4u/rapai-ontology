@@ -4,7 +4,7 @@
   "type": "ai.rapai.kpi.measured.v1",
   "specversion": "1.0",
   "time": "2026-04-18T12:00:00Z",
-  "subject": "01J0000000000000000PROJECT1",
+  "subject": "01ARZ3NDEKTSV4RRFFQ69G5FAV",
   "dataschema": "https://rapai.tenopa.co.kr/ontology/schemas/kpi.json",
   "data": {
     "kpi_id": "kpi_response_rate",
