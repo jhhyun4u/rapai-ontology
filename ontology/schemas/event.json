@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rapai.tenopa.co.kr/ontology/schemas/event.json",
+  "title": "Event",
+  "description": "CloudEvents 1.0 compatible event envelope. Used for Outbox Pattern propagation (PostgreSQL \u2192 Neo4j/Redis) and PROV-O lineage (patent CP5). Source: ontology/07-operational-ontology-design.md.",
+  "x-ontology-version": "0.1.0",
+  "x-ontology-layer": "L2.5",
+  "x-standard": "CloudEvents 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "source", "type", "specversion", "time"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "CloudEvents 'id' \u2014 globally unique per source."
+    },
+    "source": {
+      "type": "string",
+      "format": "uri-reference",
+      "description": "CloudEvents 'source' \u2014 the context in which the event happened (e.g. '/rapai/agents/AG-INT')."
+    },
+    "type": {
+      "type": "string",
+      "description": "CloudEvents 'type' \u2014 reverse-DNS topic (e.g. 'ai.rapai.project.created.v1').",
+      "pattern": "^[a-z][a-z0-9._-]*\\.v[0-9]+$"
+    },
+    "specversion": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "time": { "$ref": "enums.json#/$defs/ISODateTime" },
+    "subject": {
+      "type": "string",
+      "description": "Optional subject \u2014 often the primary Object ID (project_id, task_id, etc.)."
+    },
+    "datacontenttype": {
+      "type": "string",
+      "default": "application/json"
+    },
+    "dataschema": {
+      "type": "string",
+      "format": "uri",
+      "description": "URI of the JSON Schema governing 'data'."
+    },
+    "data": {
+      "description": "Payload. Shape depends on 'type' and 'dataschema'."
+    },
+
+    "prov_id": {
+      "type": "string",
+      "description": "PROV-O Activity URI for lineage (patent CP5)."
+    },
+    "actor_person_id": { "$ref": "enums.json#/$defs/Identifier" },
+    "actor_agent_id": {
+      "type": "string",
+      "description": "Agent identifier (e.g. 'AG-INT', 'AG-SCOPE', 'AG-KPI')."
+    },
+    "security_tier": { "$ref": "enums.json#/$defs/SecurityTier" },
+    "model_id": {
+      "type": "string",
+      "description": "LLM/ML model identifier used to produce the event (if applicable). Required when data originates from an LLM call for PROV-O lineage."
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Model confidence (0\u20131). Used for L3 Hallucination defense threshold routing."
+    }
+  }
+}

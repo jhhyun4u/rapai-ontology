@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0",
+  "project": "AI-Native Research Project Management Platform",
+  "owner": "hyunjaeho@tenopa.co.kr",
+  "created": "2026-04-18",
+  "structure": {
+    "system": "시스템 설계, 아키텍처, 철학",
+    "ontology": "개념 체계, 데이터 모델, 매핑",
+    "decisions": "의사결정 기록, 근거, 트레이싱",
+    "research": "참고 자료, 벤치마크, 기술 리뷰",
+    "llm": "LLM 전략, 모델 선정, 튜닝 계획",
+    "implementation": "구현 로드맵, 스프린트",
+    "tracing": "의사결정 기록, 근거 추적"
+  },
+  "tags": [
+    "research-management",
+    "pmbok6",
+    "pmbok7",
+    "npd-process",
+    "ai-native",
+    "hallucination-zero",
+    "harness-engineering",
+    "ontology"
+  ]
+}

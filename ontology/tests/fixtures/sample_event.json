@@ -1,0 +1,20 @@
+{
+  "id": "evt_01J00000000000000EVENT001",
+  "source": "/rapai/agents/AG-KPI",
+  "type": "ai.rapai.kpi.measured.v1",
+  "specversion": "1.0",
+  "time": "2026-04-18T12:00:00Z",
+  "subject": "01J0000000000000000PROJECT1",
+  "dataschema": "https://rapai.tenopa.co.kr/ontology/schemas/kpi.json",
+  "data": {
+    "kpi_id": "kpi_response_rate",
+    "tier": "output",
+    "metric": "response_rate",
+    "actual": 0.62,
+    "target": 0.7
+  },
+  "actor_agent_id": "AG-KPI",
+  "security_tier": "RESTRICTED",
+  "model_id": "gemma-4-31b-moe-lora-v0.1",
+  "confidence": 0.91
+}

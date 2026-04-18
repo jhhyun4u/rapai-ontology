@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rapai.tenopa.co.kr/ontology/schemas/worklog.json",
+  "title": "WorkLog",
+  "description": "A daily (or event-triggered) work log entry. Must carry at least one of the 13 daily-report tags (v2.9). Feeds into Parser LLM \u2192 Rule Engine \u2192 GNN \u2192 OR re-planner pipeline.",
+  "x-ontology-version": "0.1.0",
+  "x-ontology-layer": "L2.5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["log_id", "task_id", "author_person_id", "date", "content", "tags"],
+  "properties": {
+    "log_id":           { "$ref": "enums.json#/$defs/Identifier" },
+    "task_id":          { "$ref": "enums.json#/$defs/Identifier" },
+    "project_id":       { "$ref": "enums.json#/$defs/Identifier" },
+    "author_person_id": { "$ref": "enums.json#/$defs/Identifier" },
+    "date":             { "$ref": "enums.json#/$defs/ISODate" },
+    "content": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32768,
+      "description": "Raw natural-language content (Korean or English). Parser LLM extracts structured entities downstream."
+    },
+    "tags": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "enums.json#/$defs/DailyReportTag" },
+      "description": "One or more of the 13 daily report tags (v2.9). Enforced by Parser LLM post-processing."
+    },
+    "trl_observed": { "$ref": "enums.json#/$defs/TRLLevel" },
+    "crl_observed": { "$ref": "enums.json#/$defs/CRLLevel" },
+    "hours_spent": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 24
+    },
+    "linked_artifact_ids": {
+      "type": "array",
+      "items": { "$ref": "enums.json#/$defs/Identifier" },
+      "uniqueItems": true
+    },
+    "linked_blocker_ids": {
+      "type": "array",
+      "items": { "$ref": "enums.json#/$defs/Identifier" },
+      "uniqueItems": true
+    },
+    "prov_id": {
+      "type": "string",
+      "description": "PROV-O activity identifier for lineage (patent CP5)."
+    },
+    "created_at": { "$ref": "enums.json#/$defs/ISODateTime" }
+  }
+}

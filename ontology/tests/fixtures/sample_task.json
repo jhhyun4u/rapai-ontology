@@ -1,0 +1,12 @@
+{
+  "task_id": "01J0000000000000000000TASK1",
+  "project_id": "01J0000000000000000PROJECT1",
+  "wbs_code": "1.2.3",
+  "title": "설문 문항 확정",
+  "status": "in_progress",
+  "deadline": "2026-05-15",
+  "start_date": "2026-04-20",
+  "end_date": "2026-05-15",
+  "assigned_person_ids": ["01J0000000000000000PERSON01"],
+  "estimated_hours": 40
+}

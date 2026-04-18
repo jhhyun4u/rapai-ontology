@@ -1,0 +1,15 @@
+{
+  "project_id": "01J0000000000000000PROJECT2",
+  "name": "AI-Native R&D PM Platform 본 개발",
+  "project_type": "B",
+  "cross_cutting": {
+    "contract_modality": "public_grant",
+    "funding_source": "government_national",
+    "security_tier": "CONFIDENTIAL",
+    "scale_tier": "large"
+  },
+  "status": "draft",
+  "start_date": "2026-05-01",
+  "trl_target": 7,
+  "sponsor": "중소벤처기업부"
+}

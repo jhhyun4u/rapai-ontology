@@ -1,0 +1,204 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rapai.tenopa.co.kr/ontology/schemas/enums.json",
+  "title": "RAPai Ontology Shared Enumerations",
+  "description": "Canonical enumeration definitions referenced by every Object/Link/Action schema. Governed by ADR-001 R5 (SSOT) and ontology/06-ontology-design-charter.md (SemVer + Append-only).",
+  "x-ontology-version": "0.1.0",
+  "x-ontology-layer": "L2.5",
+  "type": "object",
+  "$defs": {
+
+    "ProjectTypeCode": {
+      "title": "WBS Primary Type (Axis 1, v2.0)",
+      "description": "Single letter code for the 8 WBS-structural project types. Source: mindvault/ontology/10-project-type-classification-v2.md.",
+      "type": "string",
+      "enum": ["A", "B", "C", "D", "E", "F", "G", "H"],
+      "x-labels": {
+        "A": "Exploratory (\ud0d0\uad6c\ud615)",
+        "B": "Developmental (\uac1c\ubc1c\ud615)",
+        "C": "Commercialization (\uc0ac\uc5c5\ud654\u00b7\uc2e4\uc99d\ud615)",
+        "D": "Investigative (\uc870\uc0ac\u00b7\ubd84\uc11d\ud615)",
+        "E": "Strategic Planning (\uae30\ud68d\u00b7\uc804\ub7b5\ud615)",
+        "F": "Advisory (\ucee8\uc124\ud305\ud615)",
+        "G": "Hybrid (\ubcf5\ud569\u00b7\uc804\uc8fc\uae30\ud615)",
+        "H": "Event Operations (\ud589\uc0ac\uc6b4\uc601\ud615)"
+      }
+    },
+
+    "ContractModality": {
+      "title": "Contract Modality (Cross-cutting Axis 2, decision 22)",
+      "description": "contract_research activates the First-class academic research overlay (L2-C Gate, 6-phase WBS addon, dedicated KPIs).",
+      "type": "string",
+      "enum": ["internal_rd", "public_grant", "contract_research"]
+    },
+
+    "FundingSource": {
+      "title": "Funding Source",
+      "type": "string",
+      "enum": ["government_national", "private_commissioned", "self_investment", "mixed"],
+      "x-korean-labels": {
+        "government_national": "\uc815\ubd80\uad6d\ucc45",
+        "private_commissioned": "\ubbfc\uac04\uc218\ud0c1",
+        "self_investment": "\uc790\uccb4\ud22c\uc790",
+        "mixed": "\ud63c\ud569"
+      }
+    },
+
+    "SecurityTier": {
+      "title": "Data Security Tier (ABAC resource attribute)",
+      "description": "Drives LLM routing (mindvault/llm/04-security-tier-routing.md). Ordering: PUBLIC < RESTRICTED < CONFIDENTIAL < SECRET.",
+      "type": "string",
+      "enum": ["PUBLIC", "RESTRICTED", "CONFIDENTIAL", "SECRET"]
+    },
+
+    "ScaleTier": {
+      "title": "Scale Tier",
+      "description": "small \u2264 3\uc5b5 KRW, medium 3\u201330\uc5b5, large > 30\uc5b5.",
+      "type": "string",
+      "enum": ["small", "medium", "large"]
+    },
+
+    "GateLevel": {
+      "title": "Gate Level (ADR-002 decision 9)",
+      "description": "L1=TRL/CRL, L2=Stage, L2-C=Client Acceptance (contract_research only), L3=Annual, L4=Moving Target.",
+      "type": "string",
+      "enum": ["L1_TRL", "L1_CRL", "L2_STAGE", "L2_C_CLIENT", "L3_ANNUAL", "L4_MOVING"]
+    },
+
+    "GateStatus": {
+      "type": "string",
+      "enum": ["planned", "in_progress", "passed", "failed", "waived"]
+    },
+
+    "KPITier": {
+      "title": "KPI 3-Tier (v2.9)",
+      "type": "string",
+      "enum": ["output", "outcome", "value"]
+    },
+
+    "DailyReportTag": {
+      "title": "Daily Report Tag (13 tags, v2.9)",
+      "description": "Parser LLM must attach one or more of these tags to each WorkLog entry.",
+      "type": "string",
+      "enum": [
+        "DONE",
+        "ISSUE",
+        "TRL_UP",
+        "CRL_UP",
+        "TIME",
+        "COST",
+        "IP",
+        "ASSIGN",
+        "DELIVERABLE",
+        "EXPERIMENT",
+        "MGT",
+        "DO",
+        "REV"
+      ]
+    },
+
+    "TaskStatus": {
+      "type": "string",
+      "enum": ["planned", "in_progress", "blocked", "done", "cancelled"]
+    },
+
+    "ProjectStatus": {
+      "type": "string",
+      "enum": ["draft", "active", "on_hold", "completed", "cancelled"]
+    },
+
+    "TRLLevel": {
+      "title": "Technology Readiness Level (1\u20139)",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9
+    },
+
+    "CRLLevel": {
+      "title": "Commercial Readiness Level (1\u20139)",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9
+    },
+
+    "Intent": {
+      "title": "Work Activity Intent (10, from ontology/09)",
+      "type": "string",
+      "enum": [
+        "create_task",
+        "update_status",
+        "log_work",
+        "assign_person",
+        "raise_blocker",
+        "resolve_blocker",
+        "record_decision",
+        "submit_gate",
+        "measure_kpi",
+        "produce_artifact"
+      ]
+    },
+
+    "ArtifactType": {
+      "type": "string",
+      "enum": ["doc", "code", "data", "report", "presentation", "dataset", "model", "other"]
+    },
+
+    "IPType": {
+      "type": "string",
+      "enum": ["patent", "copyright", "trademark", "trade_secret", "design_right", "utility_model"]
+    },
+
+    "IPStatus": {
+      "type": "string",
+      "enum": ["idea", "drafting", "filed", "published", "granted", "rejected", "abandoned"]
+    },
+
+    "RiskCategory": {
+      "type": "string",
+      "enum": ["technical", "schedule", "cost", "scope", "resource", "regulatory", "market", "quality", "security", "other"]
+    },
+
+    "Severity": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"]
+    },
+
+    "Likelihood": {
+      "type": "string",
+      "enum": ["rare", "unlikely", "possible", "likely", "almost_certain"]
+    },
+
+    "Identifier": {
+      "title": "RAPai Canonical ID (ULID or UUIDv7 string)",
+      "description": "26-char ULID or 36-char UUIDv7; both regex-compatible. Prefer ULID for time-sorted tables.",
+      "type": "string",
+      "pattern": "^[0-9A-HJKMNP-TV-Zabcdef\\-]{26,36}$",
+      "minLength": 26,
+      "maxLength": 36
+    },
+
+    "ISODateTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+
+    "ISODate": {
+      "type": "string",
+      "format": "date"
+    },
+
+    "CrossCutting": {
+      "title": "Cross-cutting Attributes (Axis 2, all types)",
+      "description": "Attached to every Project. contract_modality=contract_research activates L2-C Gate + 6-phase WBS addon + dedicated KPIs (decision 22).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract_modality", "funding_source", "security_tier", "scale_tier"],
+      "properties": {
+        "contract_modality": { "$ref": "#/$defs/ContractModality" },
+        "funding_source":    { "$ref": "#/$defs/FundingSource" },
+        "security_tier":     { "$ref": "#/$defs/SecurityTier" },
+        "scale_tier":        { "$ref": "#/$defs/ScaleTier" }
+      }
+    }
+  }
+}

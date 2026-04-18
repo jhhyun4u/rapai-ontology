@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rapai.tenopa.co.kr/ontology/schemas/person.json",
+  "title": "Person",
+  "description": "A human actor. FOAF-aligned for interoperability (ADR-001 R4 standards reuse).",
+  "x-ontology-version": "0.1.0",
+  "x-ontology-layer": "L2.5",
+  "x-foaf-mapping": {
+    "foaf:name": "name",
+    "foaf:mbox": "email"
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["person_id", "name", "security_clearance"],
+  "properties": {
+    "person_id":  { "$ref": "enums.json#/$defs/Identifier" },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "maxLength": 256
+    },
+    "role_ids": {
+      "type": "array",
+      "items": { "$ref": "enums.json#/$defs/Identifier" },
+      "uniqueItems": true
+    },
+    "security_clearance": {
+      "$ref": "enums.json#/$defs/SecurityTier",
+      "description": "ABAC subject attribute. Max security_tier a person can access."
+    },
+    "organization": {
+      "type": "string",
+      "maxLength": 256
+    },
+    "foaf_uri": {
+      "type": "string",
+      "format": "uri",
+      "description": "Optional FOAF URI for external linked-data mapping."
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "created_at": { "$ref": "enums.json#/$defs/ISODateTime" }
+  }
+}

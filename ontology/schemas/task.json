@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rapai.tenopa.co.kr/ontology/schemas/task.json",
+  "title": "Task",
+  "description": "A unit of work in a project WBS. Hierarchical via parent_task_id; terminates in deliverables. Source: ADR-001 R6 MVP, PMBOK Scope Management.",
+  "x-ontology-version": "0.1.0",
+  "x-ontology-layer": "L2.5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["task_id", "project_id", "wbs_code", "title", "status"],
+  "properties": {
+    "task_id":        { "$ref": "enums.json#/$defs/Identifier" },
+    "project_id":     { "$ref": "enums.json#/$defs/Identifier" },
+    "parent_task_id": { "$ref": "enums.json#/$defs/Identifier" },
+    "wbs_code": {
+      "type": "string",
+      "description": "Dotted WBS path, e.g. '1.2.3'.",
+      "pattern": "^[0-9]+(\\.[0-9]+)*$",
+      "maxLength": 64
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 4096
+    },
+    "status":   { "$ref": "enums.json#/$defs/TaskStatus" },
+    "deadline": { "$ref": "enums.json#/$defs/ISODate" },
+    "start_date": { "$ref": "enums.json#/$defs/ISODate" },
+    "end_date":   { "$ref": "enums.json#/$defs/ISODate" },
+    "assigned_person_ids": {
+      "type": "array",
+      "items": { "$ref": "enums.json#/$defs/Identifier" },
+      "uniqueItems": true
+    },
+    "deliverable_artifact_ids": {
+      "type": "array",
+      "items": { "$ref": "enums.json#/$defs/Identifier" },
+      "uniqueItems": true,
+      "description": "Artifacts this task produces (Link: produces)."
+    },
+    "depends_on_task_ids": {
+      "type": "array",
+      "items": { "$ref": "enums.json#/$defs/Identifier" },
+      "uniqueItems": true,
+      "description": "Upstream dependencies (Link: depends_on). Cycle detection performed by validators/compliance.py."
+    },
+    "estimated_hours": {
+      "type": "number",
+      "minimum": 0
+    },
+    "actual_hours": {
+      "type": "number",
+      "minimum": 0
+    },
+    "created_at": { "$ref": "enums.json#/$defs/ISODateTime" },
+    "updated_at": { "$ref": "enums.json#/$defs/ISODateTime" }
+  }
+}

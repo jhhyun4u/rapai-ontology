@@ -1,0 +1,89 @@
+# RAPai Ontology Dev Services
+# Spec: ADR-001 R5 (SSOT), ADR-002 R17 (RAG stack), v2.9 infra
+#
+# Usage:
+#   docker compose -f docker-compose.dev.yml up -d
+#   docker compose -f docker-compose.dev.yml down -v   # nuke volumes
+#
+# Credentials are local-dev only — NEVER use in production.
+
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: rapai-pg-dev
+    environment:
+      POSTGRES_DB: rapai
+      POSTGRES_USER: rapai
+      POSTGRES_PASSWORD: rapai_dev_only
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "15432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./ontology/migrations/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rapai -d rapai"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  neo4j:
+    image: neo4j:5.22-community
+    container_name: rapai-neo4j-dev
+    environment:
+      NEO4J_AUTH: "neo4j/rapai_dev_only"
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_dbms_security_procedures_unrestricted: "apoc.*"
+      NEO4J_server_memory_heap_initial__size: "512m"
+      NEO4J_server_memory_heap_max__size: "1g"
+    ports:
+      - "17474:7474"   # HTTP
+      - "17687:7687"   # Bolt
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+    healthcheck:
+      test:
+        ["CMD-SHELL", "cypher-shell -u neo4j -p rapai_dev_only 'RETURN 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  qdrant:
+    image: qdrant/qdrant:v1.11.0
+    container_name: rapai-qdrant-dev
+    environment:
+      QDRANT__LOG_LEVEL: INFO
+    ports:
+      - "16333:6333"   # REST
+      - "16334:6334"   # gRPC
+    volumes:
+      - qdrant_data:/qdrant/storage
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:6333/healthz | grep -q ok || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    container_name: rapai-redis-dev
+    ports:
+      - "16379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  pg_data:
+  neo4j_data:
+  neo4j_logs:
+  qdrant_data:
+  redis_data:
+
+# Port convention: host-side ports use 1xxxx to avoid collisions with default local services.

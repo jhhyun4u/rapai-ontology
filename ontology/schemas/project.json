@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rapai.tenopa.co.kr/ontology/schemas/project.json",
+  "title": "Project",
+  "description": "An R&D research project, the unit of governance in RAPai. Carries the WBS primary type (Axis 1) and cross-cutting attributes (Axis 2). Source: ADR-001 R6, ontology/10-project-type-classification-v2.md.",
+  "x-ontology-version": "0.1.0",
+  "x-ontology-layer": "L2.5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project_id",
+    "name",
+    "project_type",
+    "cross_cutting",
+    "status",
+    "start_date"
+  ],
+  "properties": {
+    "project_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "Canonical ULID assigned at kickoff (CONTRACT_SIGNED / AGREEMENT_SIGNED / KICKOFF_APPROVED)."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "project_type": {
+      "$ref": "enums.json#/$defs/ProjectTypeCode"
+    },
+    "cross_cutting": {
+      "$ref": "enums.json#/$defs/CrossCutting"
+    },
+    "status": {
+      "$ref": "enums.json#/$defs/ProjectStatus"
+    },
+    "start_date": {
+      "$ref": "enums.json#/$defs/ISODate"
+    },
+    "end_date": {
+      "$ref": "enums.json#/$defs/ISODate",
+      "description": "Planned end date. Null for open-ended engagements."
+    },
+    "pi_person_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "Principal Investigator (or Project Lead for non-academic types)."
+    },
+    "sponsor": {
+      "type": "string",
+      "description": "Funding/commissioning entity (e.g. \uad6d\ubbfc\uccad, TIPA, private client)."
+    },
+    "trl_target": {
+      "$ref": "enums.json#/$defs/TRLLevel",
+      "description": "Target TRL at project close. Required for types A, B (decision 9)."
+    },
+    "crl_target": {
+      "$ref": "enums.json#/$defs/CRLLevel",
+      "description": "Target CRL at project close. Required for type C (decision 9)."
+    },
+    "created_at": {
+      "$ref": "enums.json#/$defs/ISODateTime"
+    },
+    "updated_at": {
+      "$ref": "enums.json#/$defs/ISODateTime"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "project_type": { "const": "A" } },
+        "required": ["project_type"]
+      },
+      "then": {
+        "required": ["trl_target"],
+        "description": "Exploratory type A must declare TRL target (typical range 1\u20133)."
+      }
+    },
+    {
+      "if": {
+        "properties": { "project_type": { "const": "B" } },
+        "required": ["project_type"]
+      },
+      "then": {
+        "required": ["trl_target"],
+        "description": "Developmental type B must declare TRL target (typical range 3\u20137)."
+      }
+    },
+    {
+      "if": {
+        "properties": { "project_type": { "const": "C" } },
+        "required": ["project_type"]
+      },
+      "then": {
+        "required": ["crl_target"],
+        "description": "Commercialization type C must declare CRL target (typical range 4\u20139)."
+      }
+    }
+  ]
+}
