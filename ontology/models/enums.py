@@ -269,6 +269,17 @@ class ArtifactStatusExtended(StrEnum):
     DEPRECATED = "deprecated"
 
 
+class WorkDirectiveStatus(StrEnum):
+    """WorkDirective state machine (6-state lifecycle) — P0 enhancement v0.3.0."""
+
+    CREATED = "created"
+    VALIDATED = "validated"
+    DISPATCHED = "dispatched"
+    IN_PROGRESS = "in_progress"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+
 # ── Cross-cutting attribute bundle ───────────────────────────────────────
 class CrossCutting(BaseModel):
     """Axis 2 attributes attached to every Project.

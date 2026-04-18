@@ -3,7 +3,7 @@
   "$id": "https://rapai.tenopa.co.kr/ontology/schemas/enums.json",
   "title": "RAPai Ontology Shared Enumerations",
   "description": "Canonical enumeration definitions referenced by every Object/Link/Action schema. Governed by ADR-001 R5 (SSOT) and ontology/06-ontology-design-charter.md (SemVer + Append-only).",
-  "x-ontology-version": "0.2.0",
+  "x-ontology-version": "0.3.0",
   "x-ontology-layer": "L2.5",
   "type": "object",
   "$defs": {
@@ -210,6 +210,13 @@
     "ArtifactStatus": {
       "type": "string",
       "enum": ["draft", "in_review", "published", "archived", "deprecated"]
+    },
+
+    "WorkDirectiveStatus": {
+      "title": "WorkDirective State Machine (P0 enhancement v0.3.0)",
+      "description": "6-state lifecycle: created → validated → dispatched → in_progress → completed/failed",
+      "type": "string",
+      "enum": ["created", "validated", "dispatched", "in_progress", "completed", "failed"]
     },
 
     "Identifier": {

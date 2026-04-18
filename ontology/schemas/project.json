@@ -3,7 +3,7 @@
   "$id": "https://rapai.tenopa.co.kr/ontology/schemas/project.json",
   "title": "Project",
   "description": "An R&D research project, the unit of governance in RAPai. Carries the WBS primary type (Axis 1) and cross-cutting attributes (Axis 2). Source: ADR-001 R6, ontology/10-project-type-classification-v2.md.",
-  "x-ontology-version": "0.2.0",
+  "x-ontology-version": "0.3.0",
   "x-ontology-layer": "L2.5",
   "type": "object",
   "additionalProperties": false,
@@ -48,6 +48,20 @@
     "sponsor": {
       "type": "string",
       "description": "Funding/commissioning entity (e.g. \uad6d\ubbfc\uccad, TIPA, private client)."
+    },
+    "max_budget": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Maximum approved budget in KRW. Constraint for project execution. P0 enhancement: Constraints as Properties (R017)."
+    },
+    "approved_headcount_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum approved team member count. Constraint for resource planning. P0 enhancement: Constraints as Properties (R017)."
+    },
+    "mandatory_security_clearance": {
+      "$ref": "enums.json#/$defs/SecurityTier",
+      "description": "Minimum required security clearance for all team members. Constraint for access control. P0 enhancement: Constraints as Properties (R017)."
     },
     "trl_target": {
       "$ref": "enums.json#/$defs/TRLLevel",

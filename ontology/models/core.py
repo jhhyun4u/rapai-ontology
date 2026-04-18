@@ -100,6 +100,9 @@ class Project(_OntologyObject):
     end_date: date | None = None
     pi_person_id: Identifier | None = None
     sponsor: Annotated[str, StringConstraints(max_length=256)] | None = None
+    max_budget: Annotated[float, Field(ge=0)] | None = None
+    approved_headcount_limit: Annotated[int, Field(ge=0)] | None = None
+    mandatory_security_clearance: SecurityTier | None = None
     trl_target: Annotated[int, Field(ge=1, le=9)] | None = None
     crl_target: Annotated[int, Field(ge=1, le=9)] | None = None
     current_trl: Annotated[int, Field(ge=1, le=9)] | None = None
@@ -137,6 +140,8 @@ class Task(_OntologyObject):
     description: Annotated[str, StringConstraints(max_length=4096)] | None = None
     status: TaskStatus
     deadline: date | None = None
+    strict_deadline: bool = False
+    flexible_deadline: bool = False
     start_date: date | None = None
     end_date: date | None = None
     assigned_person_ids: list[Identifier] = Field(default_factory=list)

@@ -492,6 +492,61 @@ class RuleRegistry:
             condition=r016_condition
         )
 
+        # ── R017: Constraints as Properties (P0 enhancement) ──────────────────
+        def r017_condition(context: dict[str, Any]) -> bool:
+            """Project budget and headcount constraints must be enforced."""
+            max_budget = context.get('max_budget')
+            approved_headcount = context.get('approved_headcount_limit')
+            security_clearance = context.get('mandatory_security_clearance')
+            current_budget = context.get('current_budget', 0.0)
+            current_headcount = context.get('current_headcount', 0)
+
+            # If constraints are set, enforce them
+            if max_budget is not None and current_budget > max_budget:
+                return False
+            if approved_headcount is not None and current_headcount > approved_headcount:
+                return False
+
+            return True
+
+        self._rules['R017'] = Rule(
+            rule_id='R017',
+            sbvr_statement=(
+                'Every Project MUST enforce its max_budget, approved_headcount_limit, '
+                'and mandatory_security_clearance constraints during task allocation.'
+            ),
+            severity=RuleSeverity.MUST,
+            affected_entities=['Project', 'Task', 'Person'],
+            condition=r017_condition
+        )
+
+        # ── R020: Provenance Links (P0 enhancement) ───────────────────────────
+        def r020_condition(context: dict[str, Any]) -> bool:
+            """WorkDirective must have provenance tracking (source_worklog_id or source_rule_ids)."""
+            source_worklog_id = context.get('source_worklog_id')
+            source_rule_ids = context.get('source_rule_ids')
+            source_document = context.get('source_document')
+
+            # At least one provenance source must be specified
+            has_provenance = (
+                source_worklog_id is not None or
+                (source_rule_ids and len(source_rule_ids) > 0) or
+                source_document is not None
+            )
+
+            return has_provenance
+
+        self._rules['R020'] = Rule(
+            rule_id='R020',
+            sbvr_statement=(
+                'Every WorkDirective MUST have at least one provenance source: '
+                'source_worklog_id, source_rule_ids, or source_document.'
+            ),
+            severity=RuleSeverity.MUST,
+            affected_entities=['WorkDirective'],
+            condition=r020_condition
+        )
+
     def get(self, rule_id: str) -> Rule:
         """Get rule by ID.
 

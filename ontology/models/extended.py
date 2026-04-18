@@ -29,11 +29,17 @@ from ontology.models.enums import (
     RoleType,
     SecurityTier,
     Severity,
+    WorkDirectiveStatus,
 )
 
 
 class WorkDirective(BaseModel):
-    """Work directive capturing work intent and entities (ontology/09)."""
+    """Work directive capturing work intent and entities (ontology/09).
+
+    P0 enhancements (v0.3.0):
+    - status: 6-state lifecycle (created → validated → dispatched → in_progress → completed/failed)
+    - source_worklog_id, source_rule_ids, source_document: Provenance tracking (R020)
+    """
 
     model_config = ConfigDict(extra="forbid")
 
@@ -42,6 +48,10 @@ class WorkDirective(BaseModel):
     intent: Intent
     entities: list[dict[str, Any]] = Field(default_factory=list, description="Referenced entities")
     due_date: str = Field(..., pattern=r"^\d{4}-\d{2}-\d{2}$")  # YYYY-MM-DD
+    status: WorkDirectiveStatus = WorkDirectiveStatus.CREATED
+    source_worklog_id: str | None = Field(None, pattern=r"^[0-9A-HJKMNP-TV-Zabcdef\-]{26,36}$")
+    source_rule_ids: list[str] = Field(default_factory=list, description="Rule IDs that triggered creation")
+    source_document: str | None = Field(None, max_length=512)
     created_at: str | None = None
     updated_at: str | None = None
 
