@@ -25,8 +25,9 @@ and a migration script is shipped alongside.
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Any, Iterable
+from typing import Any
 
 
 class GovernanceViolation(Exception):
@@ -64,7 +65,6 @@ def compare_schemas(old: dict[str, Any], new: dict[str, Any], *, path: str = "")
     Only a subset of JSON Schema is inspected \u2014 enough to catch the common
     breaking patterns the charter cares about.
     """
-
     breaking: list[str] = []
     minor: list[str] = []
     patch: list[str] = []
@@ -120,7 +120,6 @@ def compare_enum_definitions(
     old_values: Iterable[str], new_values: Iterable[str], *, name: str = "enum"
 ) -> Diff:
     """Specialised enum diff \u2014 addition minor, removal major."""
-
     old_set, new_set = set(old_values), set(new_values)
     breaking = [f"{name}: value removed '{v}'" for v in sorted(old_set - new_set)]
     minor = [f"{name}: value added '{v}'" for v in sorted(new_set - old_set)]
@@ -166,7 +165,6 @@ _WIDEN_NUM_KEYS: tuple[str, ...] = ("minLength", "minimum", "exclusiveMinimum", 
 
 def _compare_property(old: dict[str, Any], new: dict[str, Any], path: str) -> Diff:
     """Diff a single property entry."""
-
     breaking: list[str] = []
     minor: list[str] = []
     patch: list[str] = []

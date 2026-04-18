@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rapai.tenopa.co.kr/ontology/schemas/actions.json",
+  "title": "Actions (Intents)",
+  "description": "Canonical work activity intents (10 types). Every WorkLog/WorkDirective carries one Intent. Source: ontology/09-work-activity-ontology.md (NL-first model).",
+  "x-ontology-version": "0.1.0",
+  "x-ontology-layer": "L2.5",
+  "type": "object",
+  "$defs": {
+    "IntentDefinition": {
+      "type": "object",
+      "properties": {
+        "intent": {"type": "string"},
+        "description": {"type": "string"},
+        "typical_entities": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "triggers_prov_recording": {"type": "boolean"}
+      }
+    }
+  },
+  "properties": {
+    "create_task": {
+      "$ref": "#/$defs/IntentDefinition",
+      "const": {
+        "intent": "create_task",
+        "description": "Create a new Task.",
+        "typical_entities": ["Task", "Project"],
+        "triggers_prov_recording": true
+      }
+    },
+    "update_status": {
+      "$ref": "#/$defs/IntentDefinition",
+      "const": {
+        "intent": "update_status",
+        "description": "Update Task status (planned → in_progress → done).",
+        "typical_entities": ["Task"],
+        "triggers_prov_recording": true
+      }
+    },
+    "log_work": {
+      "$ref": "#/$defs/IntentDefinition",
+      "const": {
+        "intent": "log_work",
+        "description": "Log daily work (hours spent, progress notes). Source: WorkLog.",
+        "typical_entities": ["WorkLog", "Task"],
+        "triggers_prov_recording": true
+      }
+    },
+    "assign_person": {
+      "$ref": "#/$defs/IntentDefinition",
+      "const": {
+        "intent": "assign_person",
+        "description": "Assign Person to Task/Role.",
+        "typical_entities": ["Task", "Person", "Role"],
+        "triggers_prov_recording": true
+      }
+    },
+    "raise_blocker": {
+      "$ref": "#/$defs/IntentDefinition",
+      "const": {
+        "intent": "raise_blocker",
+        "description": "Raise a Blocker on Task.",
+        "typical_entities": ["Blocker", "Task"],
+        "triggers_prov_recording": true
+      }
+    },
+    "resolve_blocker": {
+      "$ref": "#/$defs/IntentDefinition",
+      "const": {
+        "intent": "resolve_blocker",
+        "description": "Mark Blocker as resolved/closed.",
+        "typical_entities": ["Blocker"],
+        "triggers_prov_recording": true
+      }
+    },
+    "record_decision": {
+      "$ref": "#/$defs/IntentDefinition",
+      "const": {
+        "intent": "record_decision",
+        "description": "Record a Decision with options and rationale.",
+        "typical_entities": ["Decision"],
+        "triggers_prov_recording": true
+      }
+    },
+    "submit_gate": {
+      "$ref": "#/$defs/IntentDefinition",
+      "const": {
+        "intent": "submit_gate",
+        "description": "Submit/Sign-off on a Gate review.",
+        "typical_entities": ["Gate", "Project"],
+        "triggers_prov_recording": true
+      }
+    },
+    "measure_kpi": {
+      "$ref": "#/$defs/IntentDefinition",
+      "const": {
+        "intent": "measure_kpi",
+        "description": "Record KPI measurement.",
+        "typical_entities": ["KPI"],
+        "triggers_prov_recording": true
+      }
+    },
+    "produce_artifact": {
+      "$ref": "#/$defs/IntentDefinition",
+      "const": {
+        "intent": "produce_artifact",
+        "description": "Produce/upload an Artifact.",
+        "typical_entities": ["Artifact", "Task"],
+        "triggers_prov_recording": true
+      }
+    }
+  }
+}

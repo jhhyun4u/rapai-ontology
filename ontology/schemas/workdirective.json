@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rapai.tenopa.co.kr/ontology/schemas/workdirective.json",
+  "title": "WorkDirective",
+  "description": "A directive that captures work intent and entities. Derived from work-activity-ontology (NL-first Intent/Entity model). Carries 10 Intent types as canonical enumeration.",
+  "x-ontology-version": "0.1.0",
+  "x-ontology-layer": "L2.5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "directive_id",
+    "intent",
+    "due_date"
+  ],
+  "properties": {
+    "directive_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "ULID assigned at creation."
+    },
+    "parent_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "Parent directive ID for nested work hierarchies (optional)."
+    },
+    "intent": {
+      "$ref": "enums.json#/$defs/Intent",
+      "description": "Work activity intent (create_task, update_status, log_work, ...). Source: ontology/09-work-activity-ontology.md."
+    },
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entity_type": {
+            "type": "string",
+            "enum": ["task", "person", "artifact", "decision", "gate", "blocker"]
+          },
+          "entity_id": {
+            "$ref": "enums.json#/$defs/Identifier"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role in this directive (e.g. 'assignee', 'reviewer', 'creator')."
+          }
+        },
+        "required": ["entity_type", "entity_id"],
+        "additionalProperties": false
+      },
+      "description": "Referenced entities (Tasks, Persons, Artifacts, etc.)."
+    },
+    "due_date": {
+      "$ref": "enums.json#/$defs/ISODate",
+      "description": "Target completion date for this directive."
+    },
+    "created_at": {
+      "$ref": "enums.json#/$defs/ISODateTime"
+    },
+    "updated_at": {
+      "$ref": "enums.json#/$defs/ISODateTime"
+    }
+  }
+}

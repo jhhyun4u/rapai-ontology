@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rapai.tenopa.co.kr/ontology/schemas/risk.json",
+  "title": "Risk",
+  "description": "A risk register entry capturing identified project/task risks with likelihood, impact, and mitigation.",
+  "x-ontology-version": "0.1.0",
+  "x-ontology-layer": "L2.5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "risk_id",
+    "category",
+    "description"
+  ],
+  "properties": {
+    "risk_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "ULID assigned at creation."
+    },
+    "project_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "Parent project ID."
+    },
+    "task_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "Related task ID (optional)."
+    },
+    "category": {
+      "$ref": "enums.json#/$defs/RiskCategory",
+      "description": "Risk category (technical, schedule, cost, scope, resource, regulatory, market, quality, security, other)."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048,
+      "description": "Risk description."
+    },
+    "impact": {
+      "type": "string",
+      "maxLength": 1024,
+      "description": "Potential impact if risk materializes."
+    },
+    "likelihood": {
+      "$ref": "enums.json#/$defs/Likelihood",
+      "description": "Likelihood (rare, unlikely, possible, likely, almost_certain)."
+    },
+    "risk_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Risk score (0-100) calculated from likelihood × impact."
+    },
+    "mitigation": {
+      "type": "string",
+      "maxLength": 1024,
+      "description": "Mitigation strategy."
+    },
+    "contingency": {
+      "type": "string",
+      "maxLength": 1024,
+      "description": "Contingency plan if risk occurs."
+    },
+    "owner_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "Person responsible for managing this risk."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["identified", "active", "mitigated", "closed"],
+      "description": "Risk status."
+    },
+    "blocker_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "Related blocker ID (if risk escalated to blocker)."
+    },
+    "created_at": {
+      "$ref": "enums.json#/$defs/ISODateTime"
+    },
+    "updated_at": {
+      "$ref": "enums.json#/$defs/ISODateTime"
+    }
+  }
+}

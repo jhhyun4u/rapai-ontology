@@ -20,14 +20,12 @@ def _load_json(path: Path) -> dict[str, Any]:
 @pytest.fixture(scope="session")
 def schemas_dir() -> Path:
     """Directory containing canonical JSON Schemas (SSOT)."""
-
     return SCHEMAS_DIR
 
 
 @pytest.fixture(scope="session")
 def fixtures_dir() -> Path:
     """Directory containing sample fixture data."""
-
     return FIXTURES_DIR
 
 

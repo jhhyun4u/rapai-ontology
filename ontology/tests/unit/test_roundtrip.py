@@ -22,13 +22,11 @@ from jsonschema import Draft202012Validator, RefResolver
 
 from ontology.models.core import Event, Person, Project, Task, WorkLog
 
-
 SCHEMAS_DIR = Path(__file__).resolve().parents[2] / "schemas"
 
 
 def _resolver(schema: dict[str, Any]) -> RefResolver:
     """Build a RefResolver that finds sibling schemas by $id."""
-
     store: dict[str, dict[str, Any]] = {}
     for path in SCHEMAS_DIR.glob("*.json"):
         with path.open(encoding="utf-8") as fh:

@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rapai.tenopa.co.kr/ontology/schemas/ip.json",
+  "title": "IP",
+  "description": "Intellectual Property (patent, copyright, trademark, trade secret, design right, utility model) record. Source: CP5 patent tracking.",
+  "x-ontology-version": "0.1.0",
+  "x-ontology-layer": "L2.5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "ip_id",
+    "type",
+    "status"
+  ],
+  "properties": {
+    "ip_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "ULID assigned at creation."
+    },
+    "project_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "Parent project ID."
+    },
+    "type": {
+      "$ref": "enums.json#/$defs/IPType",
+      "description": "IP type (patent, copyright, trademark, trade_secret, design_right, utility_model)."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "description": "Title or name of IP (e.g., patent title, trademark name)."
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 2048,
+      "description": "Detailed description."
+    },
+    "status": {
+      "$ref": "enums.json#/$defs/IPStatus",
+      "description": "IP status (idea, drafting, filed, published, granted, rejected, abandoned)."
+    },
+    "filing_date": {
+      "$ref": "enums.json#/$defs/ISODate",
+      "description": "Filing date (null if not yet filed)."
+    },
+    "publication_date": {
+      "$ref": "enums.json#/$defs/ISODate",
+      "description": "Publication date (null if not yet published)."
+    },
+    "grant_date": {
+      "$ref": "enums.json#/$defs/ISODate",
+      "description": "Grant date (null if not yet granted)."
+    },
+    "filing_number": {
+      "type": "string",
+      "description": "Official filing number (patent, trademark, etc.)."
+    },
+    "registration_number": {
+      "type": "string",
+      "description": "Registration/grant number."
+    },
+    "jurisdiction": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["KR", "US", "EP", "JP", "CN", "WIPO", "other"]
+      },
+      "description": "Jurisdiction(s) where filed (e.g., [KR, US, WIPO])."
+    },
+    "inventors": {
+      "type": "array",
+      "items": {
+        "$ref": "enums.json#/$defs/Identifier"
+      },
+      "description": "Person IDs of inventors/authors."
+    },
+    "related_artifact_ids": {
+      "type": "array",
+      "items": {
+        "$ref": "enums.json#/$defs/Identifier"
+      },
+      "description": "Related Artifact IDs (code, paper, design files, etc.)."
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 2048,
+      "description": "Additional notes or claims."
+    },
+    "created_at": {
+      "$ref": "enums.json#/$defs/ISODateTime"
+    },
+    "updated_at": {
+      "$ref": "enums.json#/$defs/ISODateTime"
+    }
+  }
+}

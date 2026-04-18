@@ -168,6 +168,27 @@
       "enum": ["rare", "unlikely", "possible", "likely", "almost_certain"]
     },
 
+    "RoleType": {
+      "title": "Role Type",
+      "type": "string",
+      "enum": ["PI", "Coordinator", "Researcher", "DevOps", "Manager", "Analyst", "Engineer", "Consultant", "Admin", "Other"]
+    },
+
+    "BlockerStatus": {
+      "type": "string",
+      "enum": ["open", "in_progress", "resolved", "closed"]
+    },
+
+    "DecisionStatus": {
+      "type": "string",
+      "enum": ["pending", "approved", "rejected", "implemented", "reviewed"]
+    },
+
+    "ArtifactStatus": {
+      "type": "string",
+      "enum": ["draft", "in_review", "published", "archived", "deprecated"]
+    },
+
     "Identifier": {
       "title": "RAPai Canonical ID (ULID or UUIDv7 string)",
       "description": "26-char ULID or 36-char UUIDv7; both regex-compatible. Prefer ULID for time-sorted tables.",

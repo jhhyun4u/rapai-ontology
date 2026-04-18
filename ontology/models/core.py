@@ -18,11 +18,11 @@ from typing import Annotated, Any
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, StringConstraints, model_validator
 
 from ontology.models.enums import (
+    PROJECT_TYPES_REQUIRING_CRL,
+    PROJECT_TYPES_REQUIRING_TRL,
     CloudEventsSpecVersion,
     CrossCutting,
     DailyReportTag,
-    PROJECT_TYPES_REQUIRING_CRL,
-    PROJECT_TYPES_REQUIRING_TRL,
     ProjectStatus,
     ProjectTypeCode,
     SecurityTier,
@@ -79,9 +79,8 @@ class Project(_OntologyObject):
     updated_at: datetime | None = None
 
     @model_validator(mode="after")
-    def _enforce_trl_crl_by_type(self) -> "Project":
+    def _enforce_trl_crl_by_type(self) -> Project:
         """Mirror the JSON Schema ``allOf`` conditionals in Pydantic space."""
-
         if self.project_type in PROJECT_TYPES_REQUIRING_TRL and self.trl_target is None:
             raise ValueError(
                 f"project_type={self.project_type.value} requires 'trl_target' (decision 9)."
@@ -118,7 +117,7 @@ class Task(_OntologyObject):
     updated_at: datetime | None = None
 
     @model_validator(mode="after")
-    def _no_self_reference(self) -> "Task":
+    def _no_self_reference(self) -> Task:
         if self.parent_task_id == self.task_id:
             raise ValueError("parent_task_id must differ from task_id.")
         if self.task_id in self.depends_on_task_ids:
@@ -156,7 +155,7 @@ class WorkLog(_OntologyObject):
     created_at: datetime | None = None
 
     @model_validator(mode="after")
-    def _tags_unique(self) -> "WorkLog":
+    def _tags_unique(self) -> WorkLog:
         if len(self.tags) != len(set(self.tags)):
             raise ValueError("tags must be unique.")
         for field_name, values in (
@@ -183,7 +182,7 @@ class Person(_OntologyObject):
     created_at: datetime | None = None
 
     @model_validator(mode="after")
-    def _roles_unique(self) -> "Person":
+    def _roles_unique(self) -> Person:
         if len(self.role_ids) != len(set(self.role_ids)):
             raise ValueError("role_ids must be unique.")
         return self
@@ -214,11 +213,10 @@ class Event(_OntologyObject):
     confidence: Annotated[float, Field(ge=0, le=1)] | None = None
 
     @model_validator(mode="after")
-    def _llm_sourced_events_require_model_id(self) -> "Event":
+    def _llm_sourced_events_require_model_id(self) -> Event:
         """If ``actor_agent_id`` looks like an LLM agent and confidence is set,
         a ``model_id`` must accompany the event for PROV-O lineage integrity.
         """
-
         has_llm_signal = self.confidence is not None or (
             self.actor_agent_id is not None and self.actor_agent_id.startswith("AG-")
         )
@@ -232,4 +230,4 @@ class Event(_OntologyObject):
         return self
 
 
-__all__ = ["Project", "Task", "WorkLog", "Person", "Event", "Identifier"]
+__all__ = ["Event", "Identifier", "Person", "Project", "Task", "WorkLog"]

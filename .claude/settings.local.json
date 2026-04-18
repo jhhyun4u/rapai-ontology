@@ -2,7 +2,24 @@
   "permissions": {
     "allow": [
       "WebFetch(domain:openai.com)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(pip install *)",
+      "Bash(pytest ontology/tests/ -v)",
+      "Bash(python -m venv venv)",
+      "Bash(venv/Scripts/pip install *)",
+      "Bash(venv/Scripts/pytest ontology/tests/ -v)",
+      "Bash(python -m pip install -e \".[dev]\")",
+      "Bash(python -m pytest ontology/tests/ -v --tb=short)",
+      "Bash(gh repo *)",
+      "Bash(python -m pytest ontology/tests/unit/test_schema_shape.py -v)",
+      "Bash(python -m pytest ontology/tests/unit/ -v --tb=short)",
+      "Bash(python -m mypy --strict ontology/models/extended.py)",
+      "Bash(python -m pytest ontology/tests/unit/ -q)",
+      "Bash(python -m mypy --strict ontology/)",
+      "Bash(python -m ruff check ontology/)",
+      "Bash(python -m ruff check ontology/ --fix)",
+      "Bash(python -m ruff format ontology/ --check)",
+      "Bash(git add *)"
     ]
   }
 }

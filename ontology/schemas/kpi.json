@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rapai.tenopa.co.kr/ontology/schemas/kpi.json",
+  "title": "KPI",
+  "description": "Key Performance Indicator in 3-tier model (Output, Outcome, Value). Measures project/task progress.",
+  "x-ontology-version": "0.1.0",
+  "x-ontology-layer": "L2.5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kpi_id",
+    "tier",
+    "metric"
+  ],
+  "properties": {
+    "kpi_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "ULID assigned at creation."
+    },
+    "project_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "Parent project ID (optional for task-level KPIs, omit for global KPIs)."
+    },
+    "task_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "Parent task ID (optional, for task-level KPIs)."
+    },
+    "tier": {
+      "$ref": "enums.json#/$defs/KPITier",
+      "description": "KPI 3-tier (output, outcome, value). Source: v2.9 framework."
+    },
+    "metric": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "description": "Metric name (e.g., 'response_rate', 'time_to_delivery', 'customer_satisfaction')."
+    },
+    "unit": {
+      "type": "string",
+      "maxLength": 50,
+      "description": "Measurement unit (%, hours, count, score, etc.)."
+    },
+    "target": {
+      "type": "number",
+      "description": "Target value for this KPI."
+    },
+    "actual": {
+      "type": "number",
+      "description": "Actual measured value (null if not yet measured)."
+    },
+    "measured_at": {
+      "$ref": "enums.json#/$defs/ISODateTime",
+      "description": "Timestamp of last measurement."
+    },
+    "baseline": {
+      "type": "number",
+      "description": "Baseline value for comparison."
+    },
+    "frequency": {
+      "type": "string",
+      "enum": ["daily", "weekly", "monthly", "quarterly", "annually", "ad_hoc"],
+      "description": "Measurement frequency."
+    },
+    "owner_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "Person responsible for KPI tracking."
+    },
+    "created_at": {
+      "$ref": "enums.json#/$defs/ISODateTime"
+    },
+    "updated_at": {
+      "$ref": "enums.json#/$defs/ISODateTime"
+    }
+  }
+}

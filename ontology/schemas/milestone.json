@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rapai.tenopa.co.kr/ontology/schemas/milestone.json",
+  "title": "Milestone",
+  "description": "A project milestone tied to deliverables and target dates.",
+  "x-ontology-version": "0.1.0",
+  "x-ontology-layer": "L2.5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "milestone_id",
+    "project_id",
+    "date"
+  ],
+  "properties": {
+    "milestone_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "ULID assigned at creation."
+    },
+    "project_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "Parent project ID."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "description": "Milestone name (e.g., 'Phase 1 Completion', 'Beta Release')."
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1024,
+      "description": "Detailed description of milestone objectives."
+    },
+    "date": {
+      "$ref": "enums.json#/$defs/ISODate",
+      "description": "Target milestone date."
+    },
+    "deliverable_ids": {
+      "type": "array",
+      "items": {
+        "$ref": "enums.json#/$defs/Identifier"
+      },
+      "description": "IDs of Artifacts or Tasks that constitute this milestone's deliverables."
+    },
+    "status": {
+      "$ref": "enums.json#/$defs/ProjectStatus",
+      "description": "Milestone status (planned, active, completed, cancelled)."
+    },
+    "created_at": {
+      "$ref": "enums.json#/$defs/ISODateTime"
+    },
+    "updated_at": {
+      "$ref": "enums.json#/$defs/ISODateTime"
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rapai.tenopa.co.kr/ontology/schemas/artifact.json",
+  "title": "Artifact",
+  "description": "A deliverable (document, code, data, report, etc.) produced by a Task. Carries security tier and integrity hash.",
+  "x-ontology-version": "0.1.0",
+  "x-ontology-layer": "L2.5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_id",
+    "type",
+    "uri"
+  ],
+  "properties": {
+    "artifact_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "ULID assigned at creation."
+    },
+    "type": {
+      "$ref": "enums.json#/$defs/ArtifactType",
+      "description": "Artifact type (doc, code, data, report, presentation, dataset, model, other)."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "description": "Artifact name."
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1024,
+      "description": "Detailed description."
+    },
+    "uri": {
+      "type": "string",
+      "format": "uri",
+      "description": "Storage URI (S3, Git, local path, etc.)."
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA256 hash for integrity verification."
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version (e.g., '1.0.2')."
+    },
+    "created_by_task_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "Task that produced this artifact."
+    },
+    "created_by_person_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "Person who created this artifact."
+    },
+    "security_tier": {
+      "$ref": "enums.json#/$defs/SecurityTier",
+      "description": "Data security tier (PUBLIC, RESTRICTED, CONFIDENTIAL, SECRET)."
+    },
+    "status": {
+      "$ref": "enums.json#/$defs/ArtifactStatus",
+      "description": "Artifact status (draft, in_review, published, archived, deprecated)."
+    },
+    "related_ip_ids": {
+      "type": "array",
+      "items": {
+        "$ref": "enums.json#/$defs/Identifier"
+      },
+      "description": "IDs of IP records related to this artifact."
+    },
+    "created_at": {
+      "$ref": "enums.json#/$defs/ISODateTime"
+    },
+    "updated_at": {
+      "$ref": "enums.json#/$defs/ISODateTime"
+    }
+  }
+}

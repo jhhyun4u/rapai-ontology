@@ -58,7 +58,6 @@ class SecurityTier(StrEnum):
     @property
     def rank(self) -> int:
         """Monotonic rank (PUBLIC=0 ... SECRET=3). Used for ABAC comparisons."""
-
         return {"PUBLIC": 0, "RESTRICTED": 1, "CONFIDENTIAL": 2, "SECRET": 3}[self.value]
 
 
@@ -199,6 +198,51 @@ class Likelihood(StrEnum):
     ALMOST_CERTAIN = "almost_certain"
 
 
+# ── Extended Objects (Phase II) ────────────────────────────────────────────
+class RoleType(StrEnum):
+    """Role type (PI, Coordinator, Researcher, etc.)."""
+
+    PI = "PI"
+    COORDINATOR = "Coordinator"
+    RESEARCHER = "Researcher"
+    DEVOPS = "DevOps"
+    MANAGER = "Manager"
+    ANALYST = "Analyst"
+    ENGINEER = "Engineer"
+    CONSULTANT = "Consultant"
+    ADMIN = "Admin"
+    OTHER = "Other"
+
+
+class BlockerStatus(StrEnum):
+    """Blocker status lifecycle."""
+
+    OPEN = "open"
+    IN_PROGRESS = "in_progress"
+    RESOLVED = "resolved"
+    CLOSED = "closed"
+
+
+class DecisionStatus(StrEnum):
+    """Decision lifecycle status."""
+
+    PENDING = "pending"
+    APPROVED = "approved"
+    REJECTED = "rejected"
+    IMPLEMENTED = "implemented"
+    REVIEWED = "reviewed"
+
+
+class ArtifactStatusExtended(StrEnum):
+    """Artifact lifecycle status (extends ArtifactStatus for detailed phases)."""
+
+    DRAFT = "draft"
+    IN_REVIEW = "in_review"
+    PUBLISHED = "published"
+    ARCHIVED = "archived"
+    DEPRECATED = "deprecated"
+
+
 # ── Cross-cutting attribute bundle ───────────────────────────────────────
 class CrossCutting(BaseModel):
     """Axis 2 attributes attached to every Project.
@@ -218,7 +262,6 @@ class CrossCutting(BaseModel):
     @property
     def is_contract_research(self) -> bool:
         """True when the contract_research overlay must be activated."""
-
         return self.contract_modality is ContractModality.CONTRACT_RESEARCH
 
 

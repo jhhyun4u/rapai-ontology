@@ -15,9 +15,9 @@ from ontology.validators.governance import (
 )
 
 __all__ = [
-    "GovernanceViolation",
     "BreakingChangeError",
-    "compare_schemas",
+    "GovernanceViolation",
     "compare_enum_definitions",
+    "compare_schemas",
     "validate_semver_bump",
 ]

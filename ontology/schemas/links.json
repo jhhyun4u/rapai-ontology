@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rapai.tenopa.co.kr/ontology/schemas/links.json",
+  "title": "Links (Relations)",
+  "description": "Canonical link type definitions for RAPai object relationships. 8 types total. Source: ADR-001 R6.",
+  "x-ontology-version": "0.1.0",
+  "x-ontology-layer": "L2.5",
+  "type": "object",
+  "$defs": {
+    "LinkType": {
+      "type": "string",
+      "enum": [
+        "depends_on",
+        "produces",
+        "blocks",
+        "assigned_to",
+        "governed_by",
+        "measured_by",
+        "raised_from",
+        "related_ip"
+      ]
+    },
+    "depends_on": {
+      "title": "depends_on: Task → Task",
+      "description": "Task A depends on Task B (prerequisite relationship).",
+      "type": "object",
+      "properties": {
+        "from_id": {"type": "string"},
+        "to_id": {"type": "string"},
+        "dependency_type": {"enum": ["blocks", "waits_for", "related"]}
+      },
+      "required": ["from_id", "to_id"]
+    },
+    "produces": {
+      "title": "produces: Task → Artifact",
+      "description": "Task produces an Artifact (deliverable).",
+      "type": "object",
+      "properties": {
+        "from_id": {"type": "string"},
+        "to_id": {"type": "string"}
+      },
+      "required": ["from_id", "to_id"]
+    },
+    "blocks": {
+      "title": "blocks: Blocker → Task",
+      "description": "Blocker prevents Task progress.",
+      "type": "object",
+      "properties": {
+        "from_id": {"type": "string"},
+        "to_id": {"type": "string"}
+      },
+      "required": ["from_id", "to_id"]
+    },
+    "assigned_to": {
+      "title": "assigned_to: Task → Person",
+      "description": "Task is assigned to Person.",
+      "type": "object",
+      "properties": {
+        "from_id": {"type": "string"},
+        "to_id": {"type": "string"},
+        "role": {"type": "string"}
+      },
+      "required": ["from_id", "to_id"]
+    },
+    "governed_by": {
+      "title": "governed_by: Project → Gate",
+      "description": "Project is governed by Gate(s).",
+      "type": "object",
+      "properties": {
+        "from_id": {"type": "string"},
+        "to_id": {"type": "string"}
+      },
+      "required": ["from_id", "to_id"]
+    },
+    "measured_by": {
+      "title": "measured_by: Project/Task → KPI",
+      "description": "Project or Task is measured by KPI.",
+      "type": "object",
+      "properties": {
+        "from_id": {"type": "string"},
+        "to_id": {"type": "string"}
+      },
+      "required": ["from_id", "to_id"]
+    },
+    "raised_from": {
+      "title": "raised_from: Risk → Blocker",
+      "description": "Risk escalates to Blocker.",
+      "type": "object",
+      "properties": {
+        "from_id": {"type": "string"},
+        "to_id": {"type": "string"}
+      },
+      "required": ["from_id", "to_id"]
+    },
+    "related_ip": {
+      "title": "related_ip: Artifact ↔ IP",
+      "description": "Artifact is related to IP record.",
+      "type": "object",
+      "properties": {
+        "from_id": {"type": "string"},
+        "to_id": {"type": "string"}
+      },
+      "required": ["from_id", "to_id"]
+    }
+  }
+}

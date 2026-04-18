@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rapai.tenopa.co.kr/ontology/schemas/blocker.json",
+  "title": "Blocker",
+  "description": "A blocker that impedes Task progress. Tracked for risk escalation and decision support.",
+  "x-ontology-version": "0.1.0",
+  "x-ontology-layer": "L2.5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "blocker_id",
+    "task_id",
+    "severity",
+    "description"
+  ],
+  "properties": {
+    "blocker_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "ULID assigned at creation."
+    },
+    "task_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "ID of the Task affected by this blocker."
+    },
+    "severity": {
+      "$ref": "enums.json#/$defs/Severity",
+      "description": "Severity level (low, medium, high, critical)."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048,
+      "description": "Detailed description of the blocker."
+    },
+    "root_cause": {
+      "type": "string",
+      "maxLength": 2048,
+      "description": "Analysis of root cause (optional)."
+    },
+    "mitigation": {
+      "type": "string",
+      "maxLength": 2048,
+      "description": "Proposed mitigation or workaround."
+    },
+    "owner_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "Person responsible for resolving this blocker."
+    },
+    "status": {
+      "$ref": "enums.json#/$defs/BlockerStatus",
+      "description": "Blocker status (open, in_progress, resolved, closed)."
+    },
+    "created_at": {
+      "$ref": "enums.json#/$defs/ISODateTime",
+      "description": "Creation timestamp."
+    },
+    "resolved_at": {
+      "$ref": "enums.json#/$defs/ISODateTime",
+      "description": "Resolution timestamp (null if unresolved)."
+    },
+    "updated_at": {
+      "$ref": "enums.json#/$defs/ISODateTime"
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rapai.tenopa.co.kr/ontology/schemas/role.json",
+  "title": "Role",
+  "description": "A role definition in RAPai projects (PI, Coordinator, Researcher, etc.). Links to Person via assignment.",
+  "x-ontology-version": "0.1.0",
+  "x-ontology-layer": "L2.5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "role_id",
+    "name"
+  ],
+  "properties": {
+    "role_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "ULID assigned at creation."
+    },
+    "name": {
+      "$ref": "enums.json#/$defs/RoleType",
+      "description": "Role type (PI, Coordinator, Researcher, etc.)."
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 512,
+      "description": "Detailed role description."
+    },
+    "responsibilities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 256
+      },
+      "description": "Key responsibilities (e.g., 'Project leadership', 'Technical delivery', 'QA oversight')."
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["read", "write", "approve", "sign", "admin"]
+      },
+      "description": "Permission scopes assigned to this role."
+    },
+    "created_at": {
+      "$ref": "enums.json#/$defs/ISODateTime"
+    },
+    "updated_at": {
+      "$ref": "enums.json#/$defs/ISODateTime"
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rapai.tenopa.co.kr/ontology/schemas/decision.json",
+  "title": "Decision",
+  "description": "A recorded decision with context, options, and chosen outcome. Linked to PROV-O for lineage tracking (CP5).",
+  "x-ontology-version": "0.1.0",
+  "x-ontology-layer": "L2.5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "decision_id",
+    "context",
+    "chosen"
+  ],
+  "properties": {
+    "decision_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "ULID assigned at creation."
+    },
+    "context": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048,
+      "description": "Context and problem statement leading to this decision."
+    },
+    "options": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "option_id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1024
+          },
+          "pros": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "cons": {
+            "type": "array",
+            "items": {"type": "string"}
+          }
+        },
+        "required": ["option_id", "description"],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "description": "Evaluated options with tradeoffs."
+    },
+    "chosen": {
+      "type": "string",
+      "description": "ID of the chosen option from options[]."
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048,
+      "description": "Why this option was chosen."
+    },
+    "decision_maker_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "Person who made this decision."
+    },
+    "status": {
+      "$ref": "enums.json#/$defs/DecisionStatus",
+      "description": "Decision status (pending, approved, rejected, implemented, reviewed)."
+    },
+    "prov_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "PROV-O Activity ID for lineage tracking (CP5)."
+    },
+    "created_at": {
+      "$ref": "enums.json#/$defs/ISODateTime"
+    },
+    "updated_at": {
+      "$ref": "enums.json#/$defs/ISODateTime"
+    }
+  }
+}

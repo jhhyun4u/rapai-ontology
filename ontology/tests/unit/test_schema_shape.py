@@ -29,14 +29,12 @@ from ontology.models.enums import (
     TaskStatus,
 )
 
-
 SCHEMAS_DIR = Path(__file__).resolve().parents[2] / "schemas"
 
 
 @pytest.mark.unit
 def test_every_schema_is_valid_draft_2020_12() -> None:
     """Each schema file must itself be a valid Draft 2020-12 metaschema."""
-
     for path in SCHEMAS_DIR.glob("*.json"):
         doc = json.loads(path.read_text(encoding="utf-8"))
         Draft202012Validator.check_schema(doc)
@@ -45,7 +43,6 @@ def test_every_schema_is_valid_draft_2020_12() -> None:
 @pytest.mark.unit
 def test_every_schema_declares_ontology_metadata(enums_schema: dict[str, Any]) -> None:
     """Each schema must advertise ``x-ontology-version``."""
-
     for path in SCHEMAS_DIR.glob("*.json"):
         doc = json.loads(path.read_text(encoding="utf-8"))
         assert "x-ontology-version" in doc, f"{path.name} missing x-ontology-version"
@@ -73,7 +70,6 @@ def test_python_enum_matches_json_schema_enum(
     enums_schema: dict[str, Any], enum_cls: type, def_name: str
 ) -> None:
     """Python enum members must exactly equal the JSON Schema ``enum`` list."""
-
     schema_values: list[str] = enums_schema["$defs"][def_name]["enum"]
     python_values: list[str] = [member.value for member in enum_cls]  # type: ignore[attr-defined]
     assert sorted(schema_values) == sorted(python_values), (

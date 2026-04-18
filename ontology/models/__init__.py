@@ -22,14 +22,37 @@ from ontology.models.enums import (
     SecurityTier,
     TaskStatus,
 )
+from ontology.models.extended import (
+    IP,
+    KPI,
+    Artifact,
+    Blocker,
+    Decision,
+    Gate,
+    Milestone,
+    Risk,
+    Role,
+    WorkDirective,
+)
 
 __all__ = [
-    # Core objects
+    # Core objects (Phase I)
     "Project",
     "Task",
     "WorkLog",
     "Person",
     "Event",
+    # Extended objects (Phase II)
+    "WorkDirective",
+    "Role",
+    "Milestone",
+    "Blocker",
+    "Decision",
+    "Gate",
+    "KPI",
+    "Artifact",
+    "Risk",
+    "IP",
     # Enums
     "ProjectTypeCode",
     "ContractModality",
