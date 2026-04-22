@@ -1,0 +1,9 @@
+{
+  "link_id": "01ARZ3NDEKTSV4RRFFQ69G5FD2",
+  "link_type": "produces",
+  "from_id": "01ARZ3NDEKTSV4RRFFQ69G5FA2",
+  "to_id": "01ARZ3NDEKTSV4RRFFQ69G5FAF",
+  "metadata": {"artifact_version": "1.0"},
+  "created_at": "2026-04-20T11:00:00Z",
+  "updated_at": "2026-04-21T15:00:00Z"
+}

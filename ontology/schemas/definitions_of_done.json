@@ -1,5 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-2020-12/schema",
+  "$id": "https://ontology.rapai.dev/schemas/definitions_of_done.json",
+  "x-ontology-version": "0.1.0",
   "title": "TRL/CRL Definition of Done",
   "description": "각 Technology Readiness Level (TRL) 및 Commercialization Readiness Level (CRL)에서 요구되는 필수 산출물과 측정 기준",
   "type": "object",

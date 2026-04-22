@@ -80,6 +80,66 @@ python -m datamodel_code_generator --input ontology/schemas/project.json \
   --output ontology/models/core.py
 ```
 
+**Performance & Metrics**
+```bash
+# View performance metrics (Phase II+)
+curl http://localhost:8000/metrics
+
+# Profile validation latency
+python -c "
+from ontology.models.core import Project
+import statistics
+stats = Project.get_validation_stats()
+print(f'P50: {stats.get(\"p50\", \"N/A\")}ms, P99: {stats.get(\"p99\", \"N/A\")}ms')
+"
+```
+
+---
+
+## Performance & Responsiveness
+
+### Phase I Baseline (Current)
+
+**Validation Performance:**
+- Pydantic validation: 0.089ms/op ✓
+- JSON roundtrip: 0.266ms/op ✓
+- Rule registry lookup: 0.0005ms/op ✓
+
+**Critical Insight:** Validation is NOT the bottleneck (0.07% of agent latency).
+
+### Actual Bottlenecks (Agent Responsiveness)
+
+| Component | Latency | Impact |
+|-----------|---------|--------|
+| LLM inference | 500-2000ms | **Primary bottleneck** |
+| DB queries | 1-10ms | Secondary (w/o caching) |
+| Network I/O | 100ms+ | Tertiary |
+| Validation | 0.35ms | Negligible |
+
+### Design Principles for Performance
+
+1. **❌ No lazy validation** — Data consistency > micro-optimization
+   - Validation cost: 0.089ms now
+   - Recovery cost if invalid data stored: 5000ms later (56,000× worse)
+
+2. **✅ Async-first for secondary operations** — Keep agent responsive
+   - WorkLog parsing: Background batch (not blocking agent)
+   - DB caching: Redis with 5min TTL for Project/Task
+   - Rule execution: Inline but with minimal rules per action
+
+3. **✅ Metrics-driven decisions** — Don't optimize blindly
+   - Phase II target: P99 validation <1ms (no regression allowed)
+   - Monitor: `validation_latency_ms`, `rule_execution_time_ms`
+   - Alert: If P99 exceeds 5ms
+
+### Phase II Targets (W3-W5)
+
+- [ ] Keep validation <1ms/op (regression gate in CI)
+- [ ] Implement async WorkLog parsing (target: 1000 logs/min)
+- [ ] Add Prometheus metrics instrumentation
+- [ ] Introduce DB caching strategy (Redis)
+- [ ] Document performance SLOs
+
 ---
 
 ## Architecture & Design Principles

@@ -1,0 +1,13 @@
+{
+  "blocker_id": "01ARZ3NDEKTSV4RRFFQ69G5FA8",
+  "task_id": "01ARZ3NDEKTSV4RRFFQ69G5FA2",
+  "severity": "high",
+  "description": "Missing experimental data from collaborating institution",
+  "root_cause": "Delayed shipment of samples",
+  "mitigation": "Follow up with institution; request expedited shipping",
+  "owner_id": "01ARZ3NDEKTSV4RRFFQ69G5FA9",
+  "status": "resolved",
+  "created_at": "2026-04-20T13:20:00Z",
+  "resolved_at": "2026-04-25T14:30:00Z",
+  "updated_at": "2026-04-21T09:15:00Z"
+}

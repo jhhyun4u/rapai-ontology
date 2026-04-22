@@ -1,0 +1,10 @@
+{
+  "link_id": "01ARZ3NDEKTSV4RRFFQ69G5FD4",
+  "link_type": "assigned_to",
+  "from_id": "01ARZ3NDEKTSV4RRFFQ69G5FA2",
+  "to_id": "01ARZ3NDEKTSV4RRFFQ69G5FAB",
+  "role": "PI",
+  "metadata": {"assignment_date": "2026-04-01"},
+  "created_at": "2026-04-01T09:00:00Z",
+  "updated_at": "2026-04-22T10:00:00Z"
+}

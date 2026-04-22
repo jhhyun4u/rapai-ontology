@@ -21,6 +21,42 @@ import pytest
 from jsonschema import Draft202012Validator, RefResolver
 
 from ontology.models.core import Event, Person, Project, Task, WorkLog
+from ontology.models.extended import (
+    Artifact,
+    Blocker,
+    Decision,
+    Gate,
+    IP,
+    KPI,
+    Milestone,
+    Risk,
+    Role,
+    WorkDirective,
+)
+from ontology.models.links import (
+    AssignedToLink,
+    BlocksLink,
+    DependsOnLink,
+    GovernedByLink,
+    MeasuredByLink,
+    ProducesLink,
+    RaisedFromLink,
+    RelatedIPLink,
+)
+from ontology.models.actions import (
+    Action,
+    AssignPersonAction,
+    CreateTaskAction,
+    LogWorkAction,
+    MeasureKPIAction,
+    ProduceArtifactAction,
+    RaiseBlockerAction,
+    RecordDecisionAction,
+    ResolveBlockerAction,
+    SubmitGateAction,
+    UpdateStatusAction,
+    ValidateLevelUpAction,
+)
 
 SCHEMAS_DIR = Path(__file__).resolve().parents[2] / "schemas"
 
@@ -166,3 +202,562 @@ class TestEventRoundtrip:
         payload["type"] = "NotReverseDNS"  # must end in .v<int>
         with pytest.raises(ValueError):
             Event.model_validate(payload)
+
+
+# ────── Extended Object Roundtrip Tests (Phase II) ──────────────────────────
+
+@pytest.mark.unit
+class TestWorkDirectiveRoundtrip:
+    @pytest.fixture(scope="session")
+    def workdirective_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "workdirective.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_workdirective_roundtrip(
+        self, workdirective_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_workdirective.json").read_text(encoding="utf-8"))
+        _validate(workdirective_schema, payload)
+        model = WorkDirective.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(workdirective_schema, serialized)
+        assert serialized["intent"] == "create_task"
+        assert model.status.value == "created"
+
+
+@pytest.mark.unit
+class TestRoleRoundtrip:
+    @pytest.fixture(scope="session")
+    def role_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "role.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_role_roundtrip(
+        self, role_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_role.json").read_text(encoding="utf-8"))
+        _validate(role_schema, payload)
+        model = Role.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(role_schema, serialized)
+        assert serialized["name"] == "PI"
+
+
+@pytest.mark.unit
+class TestMilestoneRoundtrip:
+    @pytest.fixture(scope="session")
+    def milestone_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "milestone.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_milestone_roundtrip(
+        self, milestone_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_milestone.json").read_text(encoding="utf-8"))
+        _validate(milestone_schema, payload)
+        model = Milestone.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(milestone_schema, serialized)
+        assert len(serialized["deliverable_ids"]) == 2
+
+
+@pytest.mark.unit
+class TestBlockerRoundtrip:
+    @pytest.fixture(scope="session")
+    def blocker_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "blocker.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_blocker_roundtrip(
+        self, blocker_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_blocker.json").read_text(encoding="utf-8"))
+        _validate(blocker_schema, payload)
+        model = Blocker.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(blocker_schema, serialized)
+        assert serialized["severity"] == "high"
+
+
+@pytest.mark.unit
+class TestDecisionRoundtrip:
+    @pytest.fixture(scope="session")
+    def decision_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "decision.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_decision_roundtrip(
+        self, decision_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_decision.json").read_text(encoding="utf-8"))
+        _validate(decision_schema, payload)
+        model = Decision.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(decision_schema, serialized)
+        assert serialized["chosen"] == "OPT-001"
+
+
+@pytest.mark.unit
+class TestGateRoundtrip:
+    @pytest.fixture(scope="session")
+    def gate_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "gate.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_gate_roundtrip(
+        self, gate_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_gate.json").read_text(encoding="utf-8"))
+        _validate(gate_schema, payload)
+        model = Gate.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(gate_schema, serialized)
+        assert serialized["status"] == "passed"
+
+
+@pytest.mark.unit
+class TestKPIRoundtrip:
+    @pytest.fixture(scope="session")
+    def kpi_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "kpi.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_kpi_roundtrip(
+        self, kpi_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_kpi.json").read_text(encoding="utf-8"))
+        _validate(kpi_schema, payload)
+        model = KPI.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(kpi_schema, serialized)
+        assert serialized["tier"] == "output"
+
+
+@pytest.mark.unit
+class TestArtifactRoundtrip:
+    @pytest.fixture(scope="session")
+    def artifact_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "artifact.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_artifact_roundtrip(
+        self, artifact_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_artifact.json").read_text(encoding="utf-8"))
+        _validate(artifact_schema, payload)
+        model = Artifact.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(artifact_schema, serialized)
+        assert serialized["type"] == "report"
+
+
+@pytest.mark.unit
+class TestRiskRoundtrip:
+    @pytest.fixture(scope="session")
+    def risk_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "risk.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_risk_roundtrip(
+        self, risk_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_risk.json").read_text(encoding="utf-8"))
+        _validate(risk_schema, payload)
+        model = Risk.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(risk_schema, serialized)
+        assert serialized["category"] == "schedule"
+
+
+@pytest.mark.unit
+class TestIPRoundtrip:
+    @pytest.fixture(scope="session")
+    def ip_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "ip.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_ip_roundtrip(
+        self, ip_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_ip.json").read_text(encoding="utf-8"))
+        _validate(ip_schema, payload)
+        model = IP.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(ip_schema, serialized)
+        assert serialized["type"] == "patent"
+
+
+# ────── Link Type Roundtrip Tests (Relationship Infrastructure) ─────────────
+
+@pytest.mark.unit
+class TestDependsOnLinkRoundtrip:
+    @pytest.fixture(scope="session")
+    def links_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "links.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_depends_on_link_roundtrip(
+        self, links_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_link_depends_on.json").read_text(encoding="utf-8"))
+        _validate(links_schema, payload)
+        model = DependsOnLink.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(links_schema, serialized)
+        assert serialized["link_type"] == "depends_on"
+
+
+@pytest.mark.unit
+class TestProducesLinkRoundtrip:
+    @pytest.fixture(scope="session")
+    def links_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "links.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_produces_link_roundtrip(
+        self, links_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_link_produces.json").read_text(encoding="utf-8"))
+        _validate(links_schema, payload)
+        model = ProducesLink.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(links_schema, serialized)
+        assert serialized["link_type"] == "produces"
+
+
+@pytest.mark.unit
+class TestBlocksLinkRoundtrip:
+    @pytest.fixture(scope="session")
+    def links_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "links.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_blocks_link_roundtrip(
+        self, links_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_link_blocks.json").read_text(encoding="utf-8"))
+        _validate(links_schema, payload)
+        model = BlocksLink.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(links_schema, serialized)
+        assert serialized["link_type"] == "blocks"
+
+
+@pytest.mark.unit
+class TestAssignedToLinkRoundtrip:
+    @pytest.fixture(scope="session")
+    def links_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "links.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_assigned_to_link_roundtrip(
+        self, links_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_link_assigned_to.json").read_text(encoding="utf-8"))
+        _validate(links_schema, payload)
+        model = AssignedToLink.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(links_schema, serialized)
+        assert serialized["link_type"] == "assigned_to"
+
+
+@pytest.mark.unit
+class TestGovernedByLinkRoundtrip:
+    @pytest.fixture(scope="session")
+    def links_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "links.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_governed_by_link_roundtrip(
+        self, links_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_link_governed_by.json").read_text(encoding="utf-8"))
+        _validate(links_schema, payload)
+        model = GovernedByLink.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(links_schema, serialized)
+        assert serialized["link_type"] == "governed_by"
+
+
+@pytest.mark.unit
+class TestMeasuredByLinkRoundtrip:
+    @pytest.fixture(scope="session")
+    def links_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "links.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_measured_by_link_roundtrip(
+        self, links_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_link_measured_by.json").read_text(encoding="utf-8"))
+        _validate(links_schema, payload)
+        model = MeasuredByLink.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(links_schema, serialized)
+        assert serialized["link_type"] == "measured_by"
+
+
+@pytest.mark.unit
+class TestRaisedFromLinkRoundtrip:
+    @pytest.fixture(scope="session")
+    def links_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "links.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_raised_from_link_roundtrip(
+        self, links_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_link_raised_from.json").read_text(encoding="utf-8"))
+        _validate(links_schema, payload)
+        model = RaisedFromLink.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(links_schema, serialized)
+        assert serialized["link_type"] == "raised_from"
+
+
+@pytest.mark.unit
+class TestRelatedIPLinkRoundtrip:
+    @pytest.fixture(scope="session")
+    def links_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "links.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_related_ip_link_roundtrip(
+        self, links_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_link_related_ip.json").read_text(encoding="utf-8"))
+        _validate(links_schema, payload)
+        model = RelatedIPLink.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(links_schema, serialized)
+        assert serialized["link_type"] == "related_ip"
+
+
+# Action Roundtrip Tests
+
+@pytest.mark.unit
+class TestActionBaseRoundtrip:
+    @pytest.fixture(scope="session")
+    def actions_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "actions.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_action_base_roundtrip(
+        self, actions_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_action_base.json").read_text(encoding="utf-8"))
+        _validate(actions_schema, payload)
+        model = Action.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(actions_schema, serialized)
+        assert serialized["intent"] == "create_task"
+        assert serialized["status"] == "pending"
+
+
+@pytest.mark.unit
+class TestCreateTaskActionRoundtrip:
+    @pytest.fixture(scope="session")
+    def actions_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "actions.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_create_task_action_roundtrip(
+        self, actions_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_action_create_task.json").read_text(encoding="utf-8"))
+        _validate(actions_schema, payload)
+        model = CreateTaskAction.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(actions_schema, serialized)
+        assert serialized["intent"] == "create_task"
+        assert serialized["status"] == "completed"
+
+
+@pytest.mark.unit
+class TestUpdateStatusActionRoundtrip:
+    @pytest.fixture(scope="session")
+    def actions_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "actions.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_update_status_action_roundtrip(
+        self, actions_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_action_update_status.json").read_text(encoding="utf-8"))
+        _validate(actions_schema, payload)
+        model = UpdateStatusAction.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(actions_schema, serialized)
+        assert serialized["intent"] == "update_status"
+        assert serialized["metadata"]["from_status"] == "pending"
+
+
+@pytest.mark.unit
+class TestLogWorkActionRoundtrip:
+    @pytest.fixture(scope="session")
+    def actions_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "actions.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_log_work_action_roundtrip(
+        self, actions_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_action_log_work.json").read_text(encoding="utf-8"))
+        _validate(actions_schema, payload)
+        model = LogWorkAction.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(actions_schema, serialized)
+        assert serialized["intent"] == "log_work"
+        assert serialized["metadata"]["hours"] == 4.5
+
+
+@pytest.mark.unit
+class TestAssignPersonActionRoundtrip:
+    @pytest.fixture(scope="session")
+    def actions_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "actions.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_assign_person_action_roundtrip(
+        self, actions_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_action_assign_person.json").read_text(encoding="utf-8"))
+        _validate(actions_schema, payload)
+        model = AssignPersonAction.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(actions_schema, serialized)
+        assert serialized["intent"] == "assign_person"
+        assert serialized["metadata"]["role"] == "engineer"
+
+
+@pytest.mark.unit
+class TestRaiseBlockerActionRoundtrip:
+    @pytest.fixture(scope="session")
+    def actions_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "actions.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_raise_blocker_action_roundtrip(
+        self, actions_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_action_raise_blocker.json").read_text(encoding="utf-8"))
+        _validate(actions_schema, payload)
+        model = RaiseBlockerAction.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(actions_schema, serialized)
+        assert serialized["intent"] == "raise_blocker"
+        assert serialized["target_entity_type"] == "task"
+
+
+@pytest.mark.unit
+class TestResolveBlockerActionRoundtrip:
+    @pytest.fixture(scope="session")
+    def actions_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "actions.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_resolve_blocker_action_roundtrip(
+        self, actions_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_action_resolve_blocker.json").read_text(encoding="utf-8"))
+        _validate(actions_schema, payload)
+        model = ResolveBlockerAction.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(actions_schema, serialized)
+        assert serialized["intent"] == "resolve_blocker"
+        assert serialized["target_entity_type"] == "blocker"
+
+
+@pytest.mark.unit
+class TestRecordDecisionActionRoundtrip:
+    @pytest.fixture(scope="session")
+    def actions_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "actions.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_record_decision_action_roundtrip(
+        self, actions_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_action_record_decision.json").read_text(encoding="utf-8"))
+        _validate(actions_schema, payload)
+        model = RecordDecisionAction.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(actions_schema, serialized)
+        assert serialized["intent"] == "record_decision"
+        assert serialized["metadata"]["context"] == "Architecture choice"
+
+
+@pytest.mark.unit
+class TestSubmitGateActionRoundtrip:
+    @pytest.fixture(scope="session")
+    def actions_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "actions.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_submit_gate_action_roundtrip(
+        self, actions_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_action_submit_gate.json").read_text(encoding="utf-8"))
+        _validate(actions_schema, payload)
+        model = SubmitGateAction.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(actions_schema, serialized)
+        assert serialized["intent"] == "submit_gate"
+        assert serialized["result"] == "passed"
+
+
+@pytest.mark.unit
+class TestMeasureKPIActionRoundtrip:
+    @pytest.fixture(scope="session")
+    def actions_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "actions.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_measure_kpi_action_roundtrip(
+        self, actions_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_action_measure_kpi.json").read_text(encoding="utf-8"))
+        _validate(actions_schema, payload)
+        model = MeasureKPIAction.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(actions_schema, serialized)
+        assert serialized["intent"] == "measure_kpi"
+        assert serialized["metadata"]["unit"] == "percent"
+
+
+@pytest.mark.unit
+class TestProduceArtifactActionRoundtrip:
+    @pytest.fixture(scope="session")
+    def actions_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "actions.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_produce_artifact_action_roundtrip(
+        self, actions_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_action_produce_artifact.json").read_text(encoding="utf-8"))
+        _validate(actions_schema, payload)
+        model = ProduceArtifactAction.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(actions_schema, serialized)
+        assert serialized["intent"] == "produce_artifact"
+        assert "s3://" in serialized["metadata"]["artifact_uri"]
+
+
+@pytest.mark.unit
+class TestValidateLevelUpActionRoundtrip:
+    @pytest.fixture(scope="session")
+    def actions_schema(self, schemas_dir: Path) -> dict[str, Any]:
+        with (schemas_dir / "actions.json").open(encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_validate_level_up_action_roundtrip(
+        self, actions_schema: dict[str, Any], fixtures_dir: Path
+    ) -> None:
+        payload = json.loads((fixtures_dir / "sample_action_validate_level_up.json").read_text(encoding="utf-8"))
+        _validate(actions_schema, payload)
+        model = ValidateLevelUpAction.model_validate(payload)
+        serialized = json.loads(model.model_dump_json(exclude_none=True))
+        _validate(actions_schema, serialized)
+        assert serialized["intent"] == "validate_level_up_criteria"
+        assert serialized["metadata"]["level_type"] == "TRL"

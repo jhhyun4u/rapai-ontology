@@ -28,6 +28,19 @@
 | 6 | **Digital Twin** | 온톨로지 = 프로젝트의 디지털 트윈 (실시간 미러) |
 | 7 | **Agent-First Readability** | AI가 자체적으로 네비게이션 가능한 구조 (OpenAI Harness) |
 
+### 추가: 성능 및 반응성 설계 원칙 (Performance & Responsiveness)
+
+성능 우려에 대한 실증적 분석 (Phase I Benchmarking):
+
+| # | 원칙 | 의미 | 근거 |
+|---|------|------|------|
+| P1 | **Validation First** | 온톨로지 검증은 먼저하지만, 성능 악화는 없음 | Phase I 실측: Pydantic 0.089ms, 전체 roundtrip 0.266ms — 0.07% 레이턴시만 차지 |
+| P2 | **Async-first for Responsiveness** | 이차 작업(로깅, 캐싱, 리포팅)은 비동기 처리 | Agent 지연의 99%는 LLM 추론(500-2000ms) 기인 — 검증 아님. Async I/O 사용. |
+| P3 | **No Over-optimization** | Lazy validation 등의 조기 최적화는 피함 | Phase I 당 설계로 충분. Phase II 성능 목표 설정 후 실측 기반 개선. |
+| P4 | **Metrics-driven Decisions** | 측정되지 않은 최적화는 진행 금지 | Prometheus instrumentation (Phase II) — Roundtrip latency, Rule execution, Cache hit ratio 추적 |
+
+**중요:** 온톨로지 자체는 **"무겁지 않음"** (검증 오버헤드 0.35ms). AI Agent 반응성은 LLM 품질과 네트워크 레이턴시로 결정.
+
 ---
 
 ## 🏛️ 최상위 설계 결정 (Architectural Decisions)

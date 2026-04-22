@@ -1,0 +1,9 @@
+{
+  "link_id": "01ARZ3NDEKTSV4RRFFQ69G5FD6",
+  "link_type": "measured_by",
+  "from_id": "01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "to_id": "01ARZ3NDEKTSV4RRFFQ69G5FAE",
+  "metadata": {"measurement_tier": "output"},
+  "created_at": "2026-04-01T10:00:00Z",
+  "updated_at": "2026-04-22T09:00:00Z"
+}

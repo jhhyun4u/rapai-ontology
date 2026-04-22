@@ -76,6 +76,22 @@ class Role(BaseModel):
     created_at: str | None = None
     updated_at: str | None = None
 
+    @model_validator(mode="after")
+    def validate_unique_responsibilities(self) -> Role:
+        """Responsibilities must be unique (no duplicates)."""
+        if len(self.responsibilities) != len(set(self.responsibilities)):
+            raise ValueError("responsibilities must be unique (no duplicates)")
+        return self
+
+    @model_validator(mode="after")
+    def validate_valid_permissions(self) -> Role:
+        """Permissions must be from allowed set."""
+        valid_perms = {"read", "write", "approve", "sign", "admin"}
+        for perm in self.permissions:
+            if perm not in valid_perms:
+                raise ValueError(f"permission '{perm}' not in {valid_perms}")
+        return self
+
 
 class Milestone(BaseModel):
     """Project milestone tied to deliverables."""
@@ -91,6 +107,20 @@ class Milestone(BaseModel):
     status: ProjectStatus | None = None
     created_at: str | None = None
     updated_at: str | None = None
+
+    @model_validator(mode="after")
+    def validate_deliverables_not_self_referencing(self) -> Milestone:
+        """Deliverables must not reference the milestone itself."""
+        if self.milestone_id in self.deliverable_ids:
+            raise ValueError("deliverable_ids cannot include milestone_id")
+        return self
+
+    @model_validator(mode="after")
+    def validate_unique_deliverables(self) -> Milestone:
+        """Deliverable list must not have duplicates."""
+        if len(self.deliverable_ids) != len(set(self.deliverable_ids)):
+            raise ValueError("deliverable_ids must be unique (no duplicates)")
+        return self
 
 
 class Blocker(BaseModel):
@@ -109,6 +139,23 @@ class Blocker(BaseModel):
     created_at: str | None = None
     resolved_at: str | None = None
     updated_at: str | None = None
+
+    @model_validator(mode="after")
+    def validate_blocker_not_self_blocking(self) -> Blocker:
+        """Blocker must not reference itself as the task."""
+        if self.blocker_id == self.task_id:
+            raise ValueError("blocker cannot block itself (blocker_id must differ from task_id)")
+        return self
+
+    @model_validator(mode="after")
+    def validate_resolution_consistency(self) -> Blocker:
+        """If resolved_at is set, status must be 'resolved' or 'closed'."""
+        if self.resolved_at and self.status not in (BlockerStatus.RESOLVED, BlockerStatus.CLOSED):
+            raise ValueError(
+                f"resolved_at is set, but status is '{self.status}' "
+                f"(must be 'resolved' or 'closed')"
+            )
+        return self
 
 
 class Decision(BaseModel):
@@ -153,6 +200,27 @@ class Gate(BaseModel):
     created_at: str | None = None
     updated_at: str | None = None
 
+    @model_validator(mode="after")
+    def validate_gate_approval_consistency(self) -> Gate:
+        """If gate passed/failed, signed_by must be present."""
+        if self.status in (GateStatus.PASSED, GateStatus.FAILED) and not self.signed_by:
+            raise ValueError(
+                f"gate status is '{self.status}', but signed_by is missing "
+                "(required for passed/failed gates)"
+            )
+        return self
+
+    @model_validator(mode="after")
+    def validate_criteria_for_decision_gates(self) -> Gate:
+        """Reviewed gates should have criteria with evidence."""
+        if self.status in (GateStatus.PASSED, GateStatus.FAILED):
+            if not self.criteria:
+                raise ValueError(
+                    f"gate status is '{self.status}', but criteria list is empty "
+                    "(should have at least one criterion)"
+                )
+        return self
+
 
 class KPI(BaseModel):
     """Key Performance Indicator (Output, Outcome, Value 3-tier)."""
@@ -173,6 +241,32 @@ class KPI(BaseModel):
     owner_id: str | None = Field(None, pattern=r"^[0-9A-HJKMNP-TV-Zabcdef\-]{26,36}$")
     created_at: str | None = None
     updated_at: str | None = None
+
+    @model_validator(mode="after")
+    def validate_parent_reference(self) -> KPI:
+        """KPI must reference either project_id or task_id (not both absent)."""
+        if not self.project_id and not self.task_id:
+            raise ValueError("KPI must reference either project_id or task_id (cannot be both absent)")
+        return self
+
+    @model_validator(mode="after")
+    def validate_baseline_vs_target(self) -> KPI:
+        """If both baseline and target are set, baseline should not exceed target."""
+        if self.baseline is not None and self.target is not None:
+            if self.baseline > self.target:
+                raise ValueError(
+                    f"baseline ({self.baseline}) cannot exceed target ({self.target})"
+                )
+        return self
+
+    @model_validator(mode="after")
+    def validate_measurement_coherence(self) -> KPI:
+        """If actual is recorded, measured_at should be set."""
+        if self.actual is not None and not self.measured_at:
+            raise ValueError(
+                "actual measurement is set, but measured_at timestamp is missing"
+            )
+        return self
 
 
 class Artifact(BaseModel):
@@ -195,6 +289,31 @@ class Artifact(BaseModel):
     created_at: str | None = None
     updated_at: str | None = None
 
+    @model_validator(mode="after")
+    def validate_creator_reference(self) -> Artifact:
+        """Artifact must have either created_by_task_id or created_by_person_id."""
+        if not self.created_by_task_id and not self.created_by_person_id:
+            raise ValueError(
+                "artifact must have either created_by_task_id or created_by_person_id"
+            )
+        return self
+
+    @model_validator(mode="after")
+    def validate_uri_format(self) -> Artifact:
+        """URI must be non-empty and follow basic URI format."""
+        if not self.uri or not self.uri.strip():
+            raise ValueError("uri cannot be empty")
+        if "://" not in self.uri and not self.uri.startswith("/"):
+            raise ValueError(f"uri '{self.uri}' must be a valid path or full URI")
+        return self
+
+    @model_validator(mode="after")
+    def validate_no_self_reference_in_related_ip(self) -> Artifact:
+        """Related IP list must not reference the artifact itself."""
+        if self.artifact_id in self.related_ip_ids:
+            raise ValueError("related_ip_ids cannot include artifact_id")
+        return self
+
 
 class Risk(BaseModel):
     """Risk register entry."""
@@ -216,6 +335,34 @@ class Risk(BaseModel):
     blocker_id: str | None = Field(None, pattern=r"^[0-9A-HJKMNP-TV-Zabcdef\-]{26,36}$")
     created_at: str | None = None
     updated_at: str | None = None
+
+    @model_validator(mode="after")
+    def validate_parent_reference(self) -> Risk:
+        """Risk must reference either project_id or task_id (not both absent)."""
+        if not self.project_id and not self.task_id:
+            raise ValueError("risk must reference either project_id or task_id (cannot be both absent)")
+        return self
+
+    @model_validator(mode="after")
+    def validate_high_risk_has_mitigation(self) -> Risk:
+        """High risk (score >= 70) should have mitigation and contingency plans."""
+        if self.risk_score is not None and self.risk_score >= 70:
+            if not self.mitigation:
+                raise ValueError(
+                    f"risk_score is {self.risk_score} (high risk), but mitigation plan is missing"
+                )
+            if not self.contingency:
+                raise ValueError(
+                    f"risk_score is {self.risk_score} (high risk), but contingency plan is missing"
+                )
+        return self
+
+    @model_validator(mode="after")
+    def validate_risk_not_self_blocking(self) -> Risk:
+        """Risk must not reference itself as blocker (if blocker_id is set)."""
+        if self.blocker_id and self.blocker_id == self.risk_id:
+            raise ValueError("risk cannot reference itself as a blocker")
+        return self
 
 
 class IP(BaseModel):
@@ -240,3 +387,39 @@ class IP(BaseModel):
     notes: str | None = Field(None, max_length=2048)
     created_at: str | None = None
     updated_at: str | None = None
+
+    @model_validator(mode="after")
+    def validate_date_sequence(self) -> IP:
+        """Date sequence must be logical: filing ≤ publication ≤ grant."""
+        dates = {
+            "filing_date": self.filing_date,
+            "publication_date": self.publication_date,
+            "grant_date": self.grant_date,
+        }
+        date_values = [d for d in dates.values() if d]
+        if len(date_values) > 1:
+            date_values.sort()
+            if dates["filing_date"] and dates["publication_date"]:
+                if dates["filing_date"] > dates["publication_date"]:
+                    raise ValueError("filing_date must be ≤ publication_date")
+            if dates["publication_date"] and dates["grant_date"]:
+                if dates["publication_date"] > dates["grant_date"]:
+                    raise ValueError("publication_date must be ≤ grant_date")
+            if dates["filing_date"] and dates["grant_date"]:
+                if dates["filing_date"] > dates["grant_date"]:
+                    raise ValueError("filing_date must be ≤ grant_date")
+        return self
+
+    @model_validator(mode="after")
+    def validate_unique_inventors(self) -> IP:
+        """Inventors list must not have duplicates."""
+        if len(self.inventors) != len(set(self.inventors)):
+            raise ValueError("inventors must be unique (no duplicates)")
+        return self
+
+    @model_validator(mode="after")
+    def validate_no_self_reference_in_artifacts(self) -> IP:
+        """Related artifacts must not reference the IP record itself."""
+        if self.ip_id in self.related_artifact_ids:
+            raise ValueError("related_artifact_ids cannot include ip_id")
+        return self

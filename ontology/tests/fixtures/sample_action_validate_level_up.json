@@ -1,0 +1,14 @@
+{
+  "action_id": "01ARZ3NDEKTSV4RRFFQ69G5FEB",
+  "intent": "validate_level_up_criteria",
+  "actor_id": "01ARZ3NDEKTSV4RRFFQ69G5FA0",
+  "actor_type": "system",
+  "target_entity_id": "01ARZ3NDEKTSV4RRFFQ69G5FA2",
+  "target_entity_type": "task",
+  "metadata": {"level_type": "TRL", "target_level": 6, "project_id": "01ARZ3NDEKTSV4RRFFQ69G5FA2"},
+  "status": "completed",
+  "result": "TRL level-up criteria validated: PASSED",
+  "created_at": "2026-04-22T17:30:00Z",
+  "completed_at": "2026-04-22T17:35:00Z",
+  "updated_at": "2026-04-22T17:35:00Z"
+}

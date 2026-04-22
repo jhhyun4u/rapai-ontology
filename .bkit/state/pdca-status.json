@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "lastUpdated": "2026-04-18T11:55:49.208Z",
+  "lastUpdated": "2026-04-22T05:10:44.598Z",
   "activeFeatures": [
     "ontology",
     "tests",
@@ -18,9 +18,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-04-18T09:49:13.301Z",
-        "lastUpdated": "2026-04-18T11:55:49.161Z"
+        "lastUpdated": "2026-04-22T05:08:43.854Z"
       },
-      "lastFile": "C:\\project\\project_manager\\ontology\\models\\extended.py"
+      "lastFile": "C:\\project\\project_manager\\.claude\\worktrees\\goofy-khorana-ec26a5\\ontology\\parser.py"
     },
     "tests": {
       "phase": "do",
@@ -31,9 +31,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-04-18T09:51:40.656Z",
-        "lastUpdated": "2026-04-18T09:51:59.589Z"
+        "lastUpdated": "2026-04-22T00:52:45.801Z"
       },
-      "lastFile": "C:\\project\\project_manager\\ontology\\tests\\conftest.py"
+      "lastFile": "C:\\project\\project_manager\\.claude\\worktrees\\goofy-khorana-ec26a5\\ontology\\tests\\conftest.py"
     },
     "unit": {
       "phase": "do",
@@ -44,9 +44,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-04-18T09:51:46.677Z",
-        "lastUpdated": "2026-04-18T09:54:20.970Z"
+        "lastUpdated": "2026-04-22T05:10:44.589Z"
       },
-      "lastFile": "C:\\project\\project_manager\\ontology\\tests\\unit\\test_schema_shape.py"
+      "lastFile": "C:\\project\\project_manager\\.claude\\worktrees\\goofy-khorana-ec26a5\\ontology\\tests\\unit\\test_parser.py"
     },
     "validators": {
       "phase": "do",
@@ -70,7 +70,7 @@
   "session": {
     "startedAt": "2026-04-18T03:41:16.895Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-04-18T11:55:49.208Z"
+    "lastActivity": "2026-04-22T05:10:44.598Z"
   },
   "history": [
     {
@@ -184,6 +184,222 @@
     {
       "timestamp": "2026-04-18T11:55:49.206Z",
       "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T00:23:06.727Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T00:23:15.471Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T00:23:24.613Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T00:23:36.014Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T00:23:48.313Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T00:23:59.547Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T00:24:11.087Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T00:24:22.490Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T00:25:11.955Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T00:27:33.244Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T00:27:48.751Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T00:48:25.480Z",
+      "feature": "tests",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T00:48:32.787Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T00:48:47.559Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T00:50:35.641Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T00:52:45.809Z",
+      "feature": "tests",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T00:53:14.251Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T00:53:34.099Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T04:21:39.359Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T04:22:12.855Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T04:32:15.448Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T04:32:50.473Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T04:33:15.548Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T04:33:39.313Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T04:34:04.138Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T04:34:29.144Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T04:34:51.643Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T04:35:11.689Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T04:35:30.129Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T04:37:46.714Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T04:42:28.313Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T04:54:40.533Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T05:01:41.545Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T05:04:56.675Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T05:08:43.861Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T05:10:44.597Z",
+      "feature": "unit",
       "phase": "do",
       "action": "updated"
     }

@@ -1,0 +1,2 @@
+- [Agentic System Start Decision](project_agentic_system_decision.md) — Hybrid Option C: Week-8 agent design kickoff, 18-week timeline with staged gates
+- [Agent-Ontology Dependency Matrix](project_agent_ontology_dependencies.md) — Critical path: Blocker, Gate, Milestone, Decision, Risk unblock all 4 agents

@@ -1,0 +1,9 @@
+{
+  "link_id": "01ARZ3NDEKTSV4RRFFQ69G5FD7",
+  "link_type": "raised_from",
+  "from_id": "01ARZ3NDEKTSV4RRFFQ69G5FAG",
+  "to_id": "01ARZ3NDEKTSV4RRFFQ69G5FA8",
+  "metadata": {"escalation_reason": "Risk materialized"},
+  "created_at": "2026-04-18T13:30:00Z",
+  "updated_at": "2026-04-20T13:20:00Z"
+}
