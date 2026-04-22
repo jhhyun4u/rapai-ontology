@@ -42,7 +42,23 @@
       "Bash(python -m pytest ontology/tests/unit/test_parser.py::TestPipelineIntegration::test_directive_to_action -xvs)",
       "Bash(python -m pytest ontology/tests/unit/test_parser.py -v --tb=no)",
       "Bash(python -m pytest ontology/tests/unit/test_parser.py::TestPipelineIntegration::test_action_to_event -xvs)",
-      "Bash(git commit -m 'feat: Complete TIER 0 \\(T0-1/T0-2/T0-4\\) - 93 passing tests, 81% coverage *)"
+      "Bash(git commit -m 'feat: Complete TIER 0 \\(T0-1/T0-2/T0-4\\) - 93 passing tests, 81% coverage *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(python -m pytest ontology/tests/unit/test_metrics.py -v)",
+      "Bash(python3)",
+      "Bash(xargs grep *)",
+      "Bash(python ontology/examples_metrics_integration.py)",
+      "Bash(cat)",
+      "Bash(chmod +x /tmp/validate_migration.sh)",
+      "Bash(/tmp/validate_migration.sh)",
+      "Bash(python -m ontology.examples_metrics_integration)",
+      "Bash(python -m pytest ontology/tests/unit/test_metrics.py -v --tb=short)",
+      "Bash(mypy --strict ontology/metrics.py)",
+      "Bash(ruff check *)",
+      "Bash(python -m pytest ontology/tests/unit/test_metrics.py -v --tb=line -q)",
+      "Bash(python -m pytest ontology/tests/unit/ -v --tb=line -q)",
+      "Bash(python)"
     ]
   }
 }

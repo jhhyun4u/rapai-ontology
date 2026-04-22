@@ -1,11 +1,13 @@
 {
   "version": "3.0",
-  "lastUpdated": "2026-04-22T05:10:44.598Z",
+  "lastUpdated": "2026-04-22T06:24:12.016Z",
   "activeFeatures": [
     "ontology",
     "tests",
     "unit",
-    "validators"
+    "validators",
+    "versions",
+    "alembic"
   ],
   "primaryFeature": "ontology",
   "features": {
@@ -18,9 +20,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-04-18T09:49:13.301Z",
-        "lastUpdated": "2026-04-22T05:08:43.854Z"
+        "lastUpdated": "2026-04-22T06:24:12.001Z"
       },
-      "lastFile": "C:\\project\\project_manager\\.claude\\worktrees\\goofy-khorana-ec26a5\\ontology\\parser.py"
+      "lastFile": "C:\\project\\project_manager\\.claude\\worktrees\\goofy-khorana-ec26a5\\ontology\\metrics.py"
     },
     "tests": {
       "phase": "do",
@@ -44,9 +46,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-04-18T09:51:46.677Z",
-        "lastUpdated": "2026-04-22T05:10:44.589Z"
+        "lastUpdated": "2026-04-22T06:07:06.961Z"
       },
-      "lastFile": "C:\\project\\project_manager\\.claude\\worktrees\\goofy-khorana-ec26a5\\ontology\\tests\\unit\\test_parser.py"
+      "lastFile": "C:\\project\\project_manager\\.claude\\worktrees\\goofy-khorana-ec26a5\\ontology\\tests\\unit\\test_metrics.py"
     },
     "validators": {
       "phase": "do",
@@ -60,6 +62,32 @@
         "lastUpdated": "2026-04-18T09:55:24.209Z"
       },
       "lastFile": "C:\\project\\project_manager\\ontology\\validators\\governance.py"
+    },
+    "versions": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-04-22T06:07:13.028Z",
+        "lastUpdated": "2026-04-22T06:07:13.028Z"
+      },
+      "lastFile": "C:\\project\\project_manager\\.claude\\worktrees\\goofy-khorana-ec26a5\\alembic\\versions\\001_initial.py"
+    },
+    "alembic": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-04-22T06:07:26.984Z",
+        "lastUpdated": "2026-04-22T06:07:26.984Z"
+      },
+      "lastFile": "C:\\project\\project_manager\\.claude\\worktrees\\goofy-khorana-ec26a5\\alembic\\env.py"
     }
   },
   "pipeline": {
@@ -70,7 +98,7 @@
   "session": {
     "startedAt": "2026-04-18T03:41:16.895Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-04-22T05:10:44.598Z"
+    "lastActivity": "2026-04-22T06:24:12.016Z"
   },
   "history": [
     {
@@ -400,6 +428,108 @@
     {
       "timestamp": "2026-04-22T05:10:44.597Z",
       "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T06:01:58.118Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T06:03:09.193Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T06:04:18.828Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T06:06:29.192Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T06:06:39.958Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T06:06:46.643Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T06:06:56.144Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T06:07:06.968Z",
+      "feature": "unit",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T06:07:13.039Z",
+      "feature": "versions",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T06:07:26.993Z",
+      "feature": "alembic",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T06:08:43.834Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T06:18:48.125Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T06:22:31.399Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T06:22:41.876Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T06:23:48.051Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T06:24:00.020Z",
+      "feature": "ontology",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-22T06:24:12.014Z",
+      "feature": "ontology",
       "phase": "do",
       "action": "updated"
     }
