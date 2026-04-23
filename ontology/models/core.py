@@ -43,6 +43,33 @@ ShortStr = Annotated[str, StringConstraints(min_length=1, max_length=256)]
 LongStr = Annotated[str, StringConstraints(min_length=1, max_length=32768)]
 
 
+# ── TRL/CRL Progression (Phase III W2-W3) ────────────────────────────────
+class TRLProgressionEntry(BaseModel):
+    """Record of a single TRL level transition (audit trail)."""
+
+    from_level: Annotated[int, Field(ge=1, le=9)]
+    to_level: Annotated[int, Field(ge=1, le=9)]
+    transitioned_at: datetime
+    evidence_artifacts: list[Identifier] | None = None
+    approved_by: Identifier | None = None
+    gate_decision_trace_id: Identifier | None = None
+
+    model_config = ConfigDict(extra="forbid")
+
+
+class CRLProgressionEntry(BaseModel):
+    """Record of a single CRL level transition (audit trail)."""
+
+    from_level: Annotated[int, Field(ge=1, le=9)]
+    to_level: Annotated[int, Field(ge=1, le=9)]
+    transitioned_at: datetime
+    evidence_artifacts: list[Identifier] | None = None
+    approved_by: Identifier | None = None
+    gate_decision_trace_id: Identifier | None = None
+
+    model_config = ConfigDict(extra="forbid")
+
+
 class _OntologyObject(BaseModel):
     """Common base for every Core Object.
 
@@ -73,8 +100,15 @@ class Project(_OntologyObject):
     end_date: date | None = None
     pi_person_id: Identifier | None = None
     sponsor: Annotated[str, StringConstraints(max_length=256)] | None = None
+    max_budget: Annotated[float, Field(ge=0)] | None = None
+    approved_headcount_limit: Annotated[int, Field(ge=0)] | None = None
+    mandatory_security_clearance: SecurityTier | None = None
     trl_target: Annotated[int, Field(ge=1, le=9)] | None = None
     crl_target: Annotated[int, Field(ge=1, le=9)] | None = None
+    current_trl: Annotated[int, Field(ge=1, le=9)] | None = None
+    current_crl: Annotated[int, Field(ge=1, le=9)] | None = None
+    trl_progression_history: list[TRLProgressionEntry] | None = None
+    crl_progression_history: list[CRLProgressionEntry] | None = None
     created_at: datetime | None = None
     updated_at: datetime | None = None
 
@@ -106,6 +140,8 @@ class Task(_OntologyObject):
     description: Annotated[str, StringConstraints(max_length=4096)] | None = None
     status: TaskStatus
     deadline: date | None = None
+    strict_deadline: bool = False
+    flexible_deadline: bool = False
     start_date: date | None = None
     end_date: date | None = None
     assigned_person_ids: list[Identifier] = Field(default_factory=list)

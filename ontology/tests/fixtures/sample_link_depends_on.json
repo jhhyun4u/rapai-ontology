@@ -1,0 +1,10 @@
+{
+  "link_id": "01ARZ3NDEKTSV4RRFFQ69G5FD1",
+  "link_type": "depends_on",
+  "from_id": "01ARZ3NDEKTSV4RRFFQ69G5FA2",
+  "to_id": "01ARZ3NDEKTSV4RRFFQ69G5FA3",
+  "dependency_type": "blocks",
+  "metadata": {"priority": "high"},
+  "created_at": "2026-04-20T10:00:00Z",
+  "updated_at": "2026-04-21T14:30:00Z"
+}

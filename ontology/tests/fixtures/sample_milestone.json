@@ -1,0 +1,11 @@
+{
+  "milestone_id": "01ARZ3NDEKTSV4RRFFQ69G5FA5",
+  "project_id": "01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "name": "Phase 1 Completion",
+  "description": "Completion of exploratory phase with initial results",
+  "date": "2026-06-30",
+  "deliverable_ids": ["01ARZ3NDEKTSV4RRFFQ69G5FA6", "01ARZ3NDEKTSV4RRFFQ69G5FA7"],
+  "status": "active",
+  "created_at": "2026-04-01T11:00:00Z",
+  "updated_at": "2026-04-20T15:45:00Z"
+}

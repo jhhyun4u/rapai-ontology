@@ -57,3 +57,13 @@ def person_schema(schemas_dir: Path) -> dict[str, Any]:
 @pytest.fixture(scope="session")
 def event_schema(schemas_dir: Path) -> dict[str, Any]:
     return _load_json(schemas_dir / "event.json")
+
+
+@pytest.fixture(scope="session")
+def links_schema(schemas_dir: Path) -> dict[str, Any]:
+    return _load_json(schemas_dir / "links.json")
+
+
+@pytest.fixture(scope="session")
+def actions_schema(schemas_dir: Path) -> dict[str, Any]:
+    return _load_json(schemas_dir / "actions.json")

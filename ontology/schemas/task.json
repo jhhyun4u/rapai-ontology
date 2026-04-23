@@ -3,7 +3,7 @@
   "$id": "https://rapai.tenopa.co.kr/ontology/schemas/task.json",
   "title": "Task",
   "description": "A unit of work in a project WBS. Hierarchical via parent_task_id; terminates in deliverables. Source: ADR-001 R6 MVP, PMBOK Scope Management.",
-  "x-ontology-version": "0.1.0",
+  "x-ontology-version": "0.3.0",
   "x-ontology-layer": "L2.5",
   "type": "object",
   "additionalProperties": false,
@@ -29,6 +29,16 @@
     },
     "status":   { "$ref": "enums.json#/$defs/TaskStatus" },
     "deadline": { "$ref": "enums.json#/$defs/ISODate" },
+    "strict_deadline": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, deadline is immovable and triggers escalation if missed. P0 enhancement: Constraints as Properties (R017)."
+    },
+    "flexible_deadline": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, deadline can be extended with sponsor approval. P0 enhancement: Constraints as Properties (R017)."
+    },
     "start_date": { "$ref": "enums.json#/$defs/ISODate" },
     "end_date":   { "$ref": "enums.json#/$defs/ISODate" },
     "assigned_person_ids": {

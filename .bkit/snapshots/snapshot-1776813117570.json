@@ -1,0 +1,211 @@
+{
+  "timestamp": "2026-04-21T23:11:57.563Z",
+  "reason": "compaction",
+  "status": {
+    "version": "3.0",
+    "lastUpdated": "2026-04-18T11:55:49.208Z",
+    "activeFeatures": [
+      "ontology",
+      "tests",
+      "unit",
+      "validators"
+    ],
+    "primaryFeature": "ontology",
+    "features": {
+      "ontology": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-04-18T09:49:13.301Z",
+          "lastUpdated": "2026-04-18T11:55:49.161Z"
+        },
+        "lastFile": "C:\\project\\project_manager\\ontology\\models\\extended.py"
+      },
+      "tests": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-04-18T09:51:40.656Z",
+          "lastUpdated": "2026-04-18T09:51:59.589Z"
+        },
+        "lastFile": "C:\\project\\project_manager\\ontology\\tests\\conftest.py"
+      },
+      "unit": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-04-18T09:51:46.677Z",
+          "lastUpdated": "2026-04-18T09:54:20.970Z"
+        },
+        "lastFile": "C:\\project\\project_manager\\ontology\\tests\\unit\\test_schema_shape.py"
+      },
+      "validators": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-04-18T09:54:42.470Z",
+          "lastUpdated": "2026-04-18T09:55:24.209Z"
+        },
+        "lastFile": "C:\\project\\project_manager\\ontology\\validators\\governance.py"
+      }
+    },
+    "pipeline": {
+      "currentPhase": 1,
+      "level": "Dynamic",
+      "phaseHistory": []
+    },
+    "session": {
+      "startedAt": "2026-04-18T03:41:16.895Z",
+      "onboardingCompleted": false,
+      "lastActivity": "2026-04-18T11:55:49.208Z"
+    },
+    "history": [
+      {
+        "timestamp": "2026-04-18T09:49:13.339Z",
+        "feature": "ontology",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-04-18T09:49:26.642Z",
+        "feature": "ontology",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-04-18T09:50:23.921Z",
+        "feature": "ontology",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-04-18T09:51:17.575Z",
+        "feature": "ontology",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-04-18T09:51:40.663Z",
+        "feature": "tests",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-04-18T09:51:46.686Z",
+        "feature": "unit",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-04-18T09:51:59.607Z",
+        "feature": "tests",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-04-18T09:54:00.510Z",
+        "feature": "unit",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-04-18T09:54:20.976Z",
+        "feature": "unit",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-04-18T09:54:42.492Z",
+        "feature": "validators",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-04-18T09:55:24.216Z",
+        "feature": "validators",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-04-18T11:43:57.021Z",
+        "feature": "ontology",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-04-18T11:44:28.948Z",
+        "feature": "ontology",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-04-18T11:44:53.607Z",
+        "feature": "ontology",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-04-18T11:46:32.049Z",
+        "feature": "ontology",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-04-18T11:55:19.446Z",
+        "feature": "ontology",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-04-18T11:55:30.333Z",
+        "feature": "ontology",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-04-18T11:55:37.042Z",
+        "feature": "ontology",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-04-18T11:55:49.206Z",
+        "feature": "ontology",
+        "phase": "do",
+        "action": "updated"
+      }
+    ],
+    "stateMachine": {
+      "defaultWorkflow": "default",
+      "activeWorkflows": {},
+      "totalTransitions": 0
+    },
+    "automation": {
+      "globalLevel": 2,
+      "trustScore": 40,
+      "pendingApprovals": 0,
+      "lastGateResult": null
+    },
+    "team": {
+      "enabled": true,
+      "stateFile": ".bkit/runtime/agent-state.json",
+      "eventsFile": ".bkit/runtime/agent-events.jsonl"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "action_id": "01ARZ3NDEKTSV4RRFFQ69G5FE6",
+  "intent": "resolve_blocker",
+  "actor_id": "01ARZ3NDEKTSV4RRFFQ69G5FA1",
+  "actor_type": "person",
+  "target_entity_id": "01ARZ3NDEKTSV4RRFFQ69G5FC1",
+  "target_entity_type": "blocker",
+  "metadata": {"resolution_type": "workaround"},
+  "status": "completed",
+  "result": "Dependency satisfied by alternative approach",
+  "created_at": "2026-04-22T12:00:00Z",
+  "completed_at": "2026-04-22T13:00:00Z",
+  "updated_at": "2026-04-22T13:00:00Z"
+}

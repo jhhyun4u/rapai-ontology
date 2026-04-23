@@ -1,0 +1,16 @@
+{
+  "kpi_id": "01ARZ3NDEKTSV4RRFFQ69G5FAE",
+  "project_id": "01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "task_id": "01ARZ3NDEKTSV4RRFFQ69G5FA2",
+  "tier": "output",
+  "metric": "Number of experimental runs completed",
+  "unit": "count",
+  "target": 50.0,
+  "actual": 35.0,
+  "measured_at": "2026-04-22T09:00:00Z",
+  "baseline": 20.0,
+  "frequency": "weekly",
+  "owner_id": "01ARZ3NDEKTSV4RRFFQ69G5FAB",
+  "created_at": "2026-04-01T10:00:00Z",
+  "updated_at": "2026-04-22T09:00:00Z"
+}

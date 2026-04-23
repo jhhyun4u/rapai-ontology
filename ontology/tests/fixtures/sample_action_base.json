@@ -1,0 +1,11 @@
+{
+  "action_id": "01ARZ3NDEKTSV4RRFFQ69G5FEC",
+  "intent": "create_task",
+  "actor_id": "01ARZ3NDEKTSV4RRFFQ69G5FA1",
+  "actor_type": "agent",
+  "target_entity_id": "01ARZ3NDEKTSV4RRFFQ69G5FA2",
+  "target_entity_type": "task",
+  "status": "pending",
+  "created_at": "2026-04-22T18:00:00Z",
+  "updated_at": "2026-04-22T18:00:00Z"
+}

@@ -3,7 +3,7 @@
   "$id": "https://rapai.tenopa.co.kr/ontology/schemas/project.json",
   "title": "Project",
   "description": "An R&D research project, the unit of governance in RAPai. Carries the WBS primary type (Axis 1) and cross-cutting attributes (Axis 2). Source: ADR-001 R6, ontology/10-project-type-classification-v2.md.",
-  "x-ontology-version": "0.1.0",
+  "x-ontology-version": "0.3.0",
   "x-ontology-layer": "L2.5",
   "type": "object",
   "additionalProperties": false,
@@ -49,6 +49,20 @@
       "type": "string",
       "description": "Funding/commissioning entity (e.g. \uad6d\ubbfc\uccad, TIPA, private client)."
     },
+    "max_budget": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Maximum approved budget in KRW. Constraint for project execution. P0 enhancement: Constraints as Properties (R017)."
+    },
+    "approved_headcount_limit": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum approved team member count. Constraint for resource planning. P0 enhancement: Constraints as Properties (R017)."
+    },
+    "mandatory_security_clearance": {
+      "$ref": "enums.json#/$defs/SecurityTier",
+      "description": "Minimum required security clearance for all team members. Constraint for access control. P0 enhancement: Constraints as Properties (R017)."
+    },
     "trl_target": {
       "$ref": "enums.json#/$defs/TRLLevel",
       "description": "Target TRL at project close. Required for types A, B (decision 9)."
@@ -56,6 +70,77 @@
     "crl_target": {
       "$ref": "enums.json#/$defs/CRLLevel",
       "description": "Target CRL at project close. Required for type C (decision 9)."
+    },
+    "current_trl": {
+      "$ref": "enums.json#/$defs/TRLLevel",
+      "description": "Current TRL level (observed state). Phase III W2-W3: tracks actual progress."
+    },
+    "current_crl": {
+      "$ref": "enums.json#/$defs/CRLLevel",
+      "description": "Current CRL level (observed state). Phase III W2-W3: tracks actual progress."
+    },
+    "trl_progression_history": {
+      "type": "array",
+      "description": "Audit trail of TRL level transitions (Phase III W2-W3: R014-R016 tracking).",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["from_level", "to_level", "transitioned_at"],
+        "properties": {
+          "from_level": {
+            "$ref": "enums.json#/$defs/TRLLevel"
+          },
+          "to_level": {
+            "$ref": "enums.json#/$defs/TRLLevel"
+          },
+          "transitioned_at": {
+            "$ref": "enums.json#/$defs/ISODateTime"
+          },
+          "evidence_artifacts": {
+            "type": "array",
+            "description": "IDs of artifacts/deliverables that evidenced this transition (DefinitionOfDone.required_deliverables).",
+            "items": { "$ref": "enums.json#/$defs/Identifier" }
+          },
+          "approved_by": {
+            "$ref": "enums.json#/$defs/Identifier",
+            "description": "Person/Agent who approved the gate submission."
+          },
+          "gate_decision_trace_id": {
+            "$ref": "enums.json#/$defs/Identifier",
+            "description": "Link to DecisionTrace from Gate(L1_TRL) approval (R015 audit trail)."
+          }
+        }
+      }
+    },
+    "crl_progression_history": {
+      "type": "array",
+      "description": "Audit trail of CRL level transitions (similar to trl_progression_history).",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["from_level", "to_level", "transitioned_at"],
+        "properties": {
+          "from_level": {
+            "$ref": "enums.json#/$defs/CRLLevel"
+          },
+          "to_level": {
+            "$ref": "enums.json#/$defs/CRLLevel"
+          },
+          "transitioned_at": {
+            "$ref": "enums.json#/$defs/ISODateTime"
+          },
+          "evidence_artifacts": {
+            "type": "array",
+            "items": { "$ref": "enums.json#/$defs/Identifier" }
+          },
+          "approved_by": {
+            "$ref": "enums.json#/$defs/Identifier"
+          },
+          "gate_decision_trace_id": {
+            "$ref": "enums.json#/$defs/Identifier"
+          }
+        }
+      }
     },
     "created_at": {
       "$ref": "enums.json#/$defs/ISODateTime"

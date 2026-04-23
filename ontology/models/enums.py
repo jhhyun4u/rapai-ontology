@@ -125,8 +125,10 @@ class ProjectStatus(StrEnum):
     CANCELLED = "cancelled"
 
 
-# ── Work activity 10 Intent (ontology/09) ─────────────────────────────────
+# ── Work activity Intent (ontology/09) ──────────────────────────────────
 class Intent(StrEnum):
+    """Action intent for WorkDirective execution (10 + TRL/CRL)."""
+
     CREATE_TASK = "create_task"
     UPDATE_STATUS = "update_status"
     LOG_WORK = "log_work"
@@ -137,6 +139,30 @@ class Intent(StrEnum):
     SUBMIT_GATE = "submit_gate"
     MEASURE_KPI = "measure_kpi"
     PRODUCE_ARTIFACT = "produce_artifact"
+    VALIDATE_LEVEL_UP_CRITERIA = "validate_level_up_criteria"  # Phase III W2-W3: TRL/CRL
+
+
+class ParsingIntent(StrEnum):
+    """Natural language parsing intent extracted by LLM (10 + TRL/CRL).
+
+    These intents represent the *meaning* of a WorkLog entry as interpreted by the parser.
+    They map N:M to Action Intents (Intent) via `ontology/mapping/intent_mapper.py`.
+    """
+
+    COMPLETION = "completion"
+    PROGRESS = "progress"
+    PLAN = "plan"
+    BLOCKER = "blocker"
+    REQUEST = "request"
+    DIRECTIVE = "directive"
+    OBSERVATION = "observation"
+    RISK_FLAG = "risk_flag"
+    DECISION = "decision"
+    QUERY = "query"
+    # Phase III W2-W3 additions:
+    LEVEL_UP_EVIDENCE = "level_up_evidence"  # Evidence that TRL/CRL criteria met
+    LEVEL_UP_REQUEST = "level_up_request"  # Explicit request to level-up
+    IMPLICIT_LEVEL_UP = "implicit_level_up"  # Implicit indication of level-up readiness
 
 
 # ── Phase II enums (declared now so extended models can import) ───────────
@@ -241,6 +267,17 @@ class ArtifactStatusExtended(StrEnum):
     PUBLISHED = "published"
     ARCHIVED = "archived"
     DEPRECATED = "deprecated"
+
+
+class WorkDirectiveStatus(StrEnum):
+    """WorkDirective state machine (6-state lifecycle) — P0 enhancement v0.3.0."""
+
+    CREATED = "created"
+    VALIDATED = "validated"
+    DISPATCHED = "dispatched"
+    IN_PROGRESS = "in_progress"
+    COMPLETED = "completed"
+    FAILED = "failed"
 
 
 # ── Cross-cutting attribute bundle ───────────────────────────────────────

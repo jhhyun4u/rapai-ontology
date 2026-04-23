@@ -20,6 +20,8 @@ dependencies = [
     "pydantic>=2.8,<3",
     "jsonschema>=4.22",
     "python-dateutil>=2.9",
+    # ── Phase II metrics (Week 11)
+    "prometheus-client>=0.20,<1",
     # ── Phase III runtime (declared now for CI stability; can be removed if split later)
     "sqlalchemy>=2.0,<3",
     "alembic>=1.13",

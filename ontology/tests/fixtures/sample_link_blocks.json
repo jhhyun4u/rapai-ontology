@@ -1,0 +1,9 @@
+{
+  "link_id": "01ARZ3NDEKTSV4RRFFQ69G5FD3",
+  "link_type": "blocks",
+  "from_id": "01ARZ3NDEKTSV4RRFFQ69G5FA8",
+  "to_id": "01ARZ3NDEKTSV4RRFFQ69G5FA2",
+  "metadata": {"blocking_reason": "Missing data"},
+  "created_at": "2026-04-20T12:00:00Z",
+  "updated_at": "2026-04-21T15:30:00Z"
+}

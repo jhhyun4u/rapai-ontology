@@ -3,7 +3,7 @@
   "$id": "https://rapai.tenopa.co.kr/ontology/schemas/enums.json",
   "title": "RAPai Ontology Shared Enumerations",
   "description": "Canonical enumeration definitions referenced by every Object/Link/Action schema. Governed by ADR-001 R5 (SSOT) and ontology/06-ontology-design-charter.md (SemVer + Append-only).",
-  "x-ontology-version": "0.1.0",
+  "x-ontology-version": "0.3.0",
   "x-ontology-layer": "L2.5",
   "type": "object",
   "$defs": {
@@ -122,7 +122,8 @@
     },
 
     "Intent": {
-      "title": "Work Activity Intent (10, from ontology/09)",
+      "title": "Work Activity Intent (10 + TRL/CRL, from ontology/09)",
+      "description": "Action intent for WorkDirective execution.",
       "type": "string",
       "enum": [
         "create_task",
@@ -134,7 +135,29 @@
         "record_decision",
         "submit_gate",
         "measure_kpi",
-        "produce_artifact"
+        "produce_artifact",
+        "validate_level_up_criteria"
+      ]
+    },
+
+    "ParsingIntent": {
+      "title": "Natural Language Parsing Intent (10 + TRL/CRL, from ontology/09)",
+      "description": "Intent extracted from WorkLog natural language by LLM parser.",
+      "type": "string",
+      "enum": [
+        "completion",
+        "progress",
+        "plan",
+        "blocker",
+        "request",
+        "directive",
+        "observation",
+        "risk_flag",
+        "decision",
+        "query",
+        "level_up_evidence",
+        "level_up_request",
+        "implicit_level_up"
       ]
     },
 
@@ -187,6 +210,13 @@
     "ArtifactStatus": {
       "type": "string",
       "enum": ["draft", "in_review", "published", "archived", "deprecated"]
+    },
+
+    "WorkDirectiveStatus": {
+      "title": "WorkDirective State Machine (P0 enhancement v0.3.0)",
+      "description": "6-state lifecycle: created → validated → dispatched → in_progress → completed/failed",
+      "type": "string",
+      "enum": ["created", "validated", "dispatched", "in_progress", "completed", "failed"]
     },
 
     "Identifier": {

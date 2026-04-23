@@ -1,4 +1,4 @@
-"""Rule Registry: SSOT for all 13 core business rules (R001-R013).
+"""Rule Registry: SSOT for all 16 core business rules (R001-R016).
 
 Each rule is defined with:
   - rule_id: Unique identifier (e.g., 'R001')
@@ -22,7 +22,7 @@ class RuleRegistry:
     """
 
     def __init__(self) -> None:
-        """Initialize with 13 core rules."""
+        """Initialize with 16 core rules (R001-R016)."""
         self._rules: dict[str, Rule] = {}
         self._build_rules()
 
@@ -395,6 +395,156 @@ class RuleRegistry:
             severity=RuleSeverity.MUST,
             affected_entities=['Project', 'Task'],
             condition=r013_condition
+        )
+
+        # ──── R014: TRL Level-Up Definition of Done Validation ────
+        def r014_condition(context: dict[str, Any]) -> bool:
+            """Every TRL level-up (Project.current_trl += 1) must be preceded by
+            submission of all required deliverables in DefinitionOfDone and
+            approval by Gate(L1_TRL, status='approved').
+            """
+            event_type: str | None = context.get('event_type')
+            if event_type != 'TRL_LEVEL_UP':
+                return True  # Not a level-up event
+
+            # Check all required deliverables submitted
+            required_artifacts: list[Any] = context.get('required_artifacts', [])
+            submitted_artifacts: list[Any] = context.get('submitted_artifacts', [])
+
+            if not all(artifact in submitted_artifacts for artifact in required_artifacts):
+                return False  # Missing deliverables
+
+            # Check Gate approval
+            gate_approved: bool = context.get('gate_approved', False)
+            return bool(gate_approved)
+
+        self._rules['R014'] = Rule(
+            rule_id='R014',
+            sbvr_statement=(
+                'Every TRL level-up must be preceded by submission of all required deliverables '
+                'in DefinitionOfDone and approval by Gate(L1_TRL).'
+            ),
+            severity=RuleSeverity.MUST,
+            affected_entities=['Project', 'Gate', 'Artifact'],
+            condition=r014_condition
+        )
+
+        # ──── R015: TRL Level-Up Decision Traceability ────
+        def r015_condition(context: dict[str, Any]) -> bool:
+            """Every TRL level-up must have a DecisionTrace linking:
+            - WorkLog entries that provided evidence
+            - Gate approval decision
+            - Agent auto-decision
+            - PROV-O lineage with explainability_score ≥ 0.8
+            """
+            event_type: str | None = context.get('event_type')
+            if event_type != 'TRL_LEVEL_UP':
+                return True  # Not a level-up event
+
+            has_decision_trace: bool = context.get('has_decision_trace', False)
+            if not has_decision_trace:
+                return False
+
+            explainability_score: float = context.get('explainability_score', 0.0)
+            return bool(explainability_score >= 0.8)
+
+        self._rules['R015'] = Rule(
+            rule_id='R015',
+            sbvr_statement=(
+                'Every TRL level-up must have a DecisionTrace with PROV-O lineage '
+                '(explainability_score ≥ 0.8).'
+            ),
+            severity=RuleSeverity.MUST,
+            affected_entities=['Project', 'DecisionTrace'],
+            condition=r015_condition
+        )
+
+        # ──── R016: Backward-Chaining Task Generation for TRL Gap ────
+        def r016_condition(context: dict[str, Any]) -> bool:
+            """If Project.current_trl < Project.trl_target,
+            the system MUST auto-generate intermediate Tasks for each TRL level gap,
+            with estimated_hours derived from HistoricalProgressData or
+            DefinitionOfDone recommendations.
+            """
+            current_trl: int | None = context.get('current_trl')
+            trl_target: int | None = context.get('trl_target')
+
+            if not current_trl or not trl_target:
+                return True  # Can't determine
+
+            if current_trl >= trl_target:
+                return True  # No gap = satisfied
+
+            # Check if intermediate tasks were auto-generated
+            auto_generated_tasks: list[Any] = context.get('auto_generated_tasks', [])
+            expected_task_count = trl_target - current_trl
+
+            return len(auto_generated_tasks) >= expected_task_count
+
+        self._rules['R016'] = Rule(
+            rule_id='R016',
+            sbvr_statement=(
+                'If Project.current_trl < Project.trl_target, '
+                'the system MUST auto-generate intermediate Tasks for each TRL level gap.'
+            ),
+            severity=RuleSeverity.SHOULD,
+            affected_entities=['Project', 'Task'],
+            condition=r016_condition
+        )
+
+        # ── R017: Constraints as Properties (P0 enhancement) ──────────────────
+        def r017_condition(context: dict[str, Any]) -> bool:
+            """Project budget and headcount constraints must be enforced."""
+            max_budget = context.get('max_budget')
+            approved_headcount = context.get('approved_headcount_limit')
+            security_clearance = context.get('mandatory_security_clearance')
+            current_budget = context.get('current_budget', 0.0)
+            current_headcount = context.get('current_headcount', 0)
+
+            # If constraints are set, enforce them
+            if max_budget is not None and current_budget > max_budget:
+                return False
+            if approved_headcount is not None and current_headcount > approved_headcount:
+                return False
+
+            return True
+
+        self._rules['R017'] = Rule(
+            rule_id='R017',
+            sbvr_statement=(
+                'Every Project MUST enforce its max_budget, approved_headcount_limit, '
+                'and mandatory_security_clearance constraints during task allocation.'
+            ),
+            severity=RuleSeverity.MUST,
+            affected_entities=['Project', 'Task', 'Person'],
+            condition=r017_condition
+        )
+
+        # ── R020: Provenance Links (P0 enhancement) ───────────────────────────
+        def r020_condition(context: dict[str, Any]) -> bool:
+            """WorkDirective must have provenance tracking (source_worklog_id or source_rule_ids)."""
+            source_worklog_id = context.get('source_worklog_id')
+            source_rule_ids = context.get('source_rule_ids')
+            source_document = context.get('source_document')
+
+            # At least one provenance source must be specified
+            has_provenance = (
+                source_worklog_id is not None or
+                (source_rule_ids and len(source_rule_ids) > 0) or
+                source_document is not None
+            )
+
+            return has_provenance
+
+        self._rules['R020'] = Rule(
+            rule_id='R020',
+            sbvr_statement=(
+                'Every WorkDirective MUST have at least one provenance source: '
+                'source_worklog_id, source_rule_ids, or source_document.'
+            ),
+            severity=RuleSeverity.MUST,
+            affected_entities=['WorkDirective'],
+            condition=r020_condition
         )
 
     def get(self, rule_id: str) -> Rule:

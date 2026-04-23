@@ -1,0 +1,9 @@
+{
+  "role_id": "01ARZ3NDEKTSV4RRFFQ69G5FA4",
+  "name": "PI",
+  "description": "Principal Investigator responsible for project leadership",
+  "responsibilities": ["Project leadership", "Budget oversight", "Team coordination"],
+  "permissions": ["read", "write", "approve", "sign"],
+  "created_at": "2026-04-01T10:00:00Z",
+  "updated_at": "2026-04-15T14:30:00Z"
+}

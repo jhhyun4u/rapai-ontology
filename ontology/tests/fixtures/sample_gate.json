@@ -1,0 +1,20 @@
+{
+  "gate_id": "01ARZ3NDEKTSV4RRFFQ69G5FAC",
+  "project_id": "01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "level": "L1_TRL",
+  "criteria": [
+    {
+      "criterion_id": "CRIT-001",
+      "description": "Initial concept validated",
+      "met": true,
+      "evidence": "Lab notebook entry dated 2026-04-10"
+    }
+  ],
+  "status": "passed",
+  "signed_by": "01ARZ3NDEKTSV4RRFFQ69G5FAD",
+  "snapshot_id": "01ARZ3NDEKTSV4RRFFQ69G5FC2",
+  "decision_id": "01ARZ3NDEKTSV4RRFFQ69G5FC3",
+  "prov_id": "01ARZ3NDEKTSV4RRFFQ69G5FC4",
+  "created_at": "2026-04-18T10:00:00Z",
+  "updated_at": "2026-04-19T16:30:00Z"
+}

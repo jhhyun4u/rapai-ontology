@@ -1,0 +1,14 @@
+{
+  "action_id": "01ARZ3NDEKTSV4RRFFQ69G5FE9",
+  "intent": "measure_kpi",
+  "actor_id": "01ARZ3NDEKTSV4RRFFQ69G5FA1",
+  "actor_type": "agent",
+  "target_entity_id": "01ARZ3NDEKTSV4RRFFQ69G5FD3",
+  "target_entity_type": "kpi",
+  "metadata": {"measured_value": 85.5, "unit": "percent", "kpi_id": "01ARZ3NDEKTSV4RRFFQ69G5FD3"},
+  "status": "completed",
+  "result": "KPI measured",
+  "created_at": "2026-04-22T16:00:00Z",
+  "completed_at": "2026-04-22T16:05:00Z",
+  "updated_at": "2026-04-22T16:05:00Z"
+}

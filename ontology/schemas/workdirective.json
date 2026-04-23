@@ -3,7 +3,7 @@
   "$id": "https://rapai.tenopa.co.kr/ontology/schemas/workdirective.json",
   "title": "WorkDirective",
   "description": "A directive that captures work intent and entities. Derived from work-activity-ontology (NL-first Intent/Entity model). Carries 10 Intent types as canonical enumeration.",
-  "x-ontology-version": "0.1.0",
+  "x-ontology-version": "0.3.0",
   "x-ontology-layer": "L2.5",
   "type": "object",
   "additionalProperties": false,
@@ -50,6 +50,24 @@
     "due_date": {
       "$ref": "enums.json#/$defs/ISODate",
       "description": "Target completion date for this directive."
+    },
+    "status": {
+      "$ref": "enums.json#/$defs/WorkDirectiveStatus",
+      "description": "6-state lifecycle: created → validated → dispatched → in_progress → completed/failed (P0 enhancement)"
+    },
+    "source_worklog_id": {
+      "$ref": "enums.json#/$defs/Identifier",
+      "description": "WorkLog ID that generated this directive (for traceability). P0 enhancement: Provenance Links (R020)."
+    },
+    "source_rule_ids": {
+      "type": "array",
+      "items": { "$ref": "enums.json#/$defs/Identifier" },
+      "description": "Rule IDs (R001-R020) that triggered this directive creation. P0 enhancement: Provenance Links (R020)."
+    },
+    "source_document": {
+      "type": "string",
+      "maxLength": 512,
+      "description": "Original source document reference (e.g., meeting notes, email subject, file path). P0 enhancement: Provenance Links (R020)."
     },
     "created_at": {
       "$ref": "enums.json#/$defs/ISODateTime"
